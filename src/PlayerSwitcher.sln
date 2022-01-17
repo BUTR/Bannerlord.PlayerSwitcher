@@ -1,0 +1,64 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlayerSwitcher", "PlayerSwitcher\PlayerSwitcher.csproj", "{87417FD6-AD5D-403D-891F-989D1F23013C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "root", "root", "{AD3CA73B-9D28-4BD8-9D32-2C5BBAB1424F}"
+	ProjectSection(SolutionItems) = preProject
+		..\.editorconfig = ..\.editorconfig
+		..\README.md = ..\README.md
+		..\supported-game-versions.txt = ..\supported-game-versions.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B19E75DC-D663-4731-85FD-B2201277FDFB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{055C8028-AE6F-4B13-A271-D574AA4A7E8D}"
+	ProjectSection(SolutionItems) = preProject
+		..\build\common.props = ..\build\common.props
+		..\build\common.targets = ..\build\common.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{19EC318D-841C-4B1F-A1D9-8E43180AE538}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\workflows\dotnet-format-daily.yml = ..\.github\workflows\dotnet-format-daily.yml
+		..\.github\workflows\test-build.yml = ..\.github\workflows\test-build.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{AD9FCF8C-B67A-4E3A-B34B-CF92CDABEDD8}"
+	ProjectSection(SolutionItems) = preProject
+		..\build\scripts\build-fully.ps1 = ..\build\scripts\build-fully.ps1
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Beta_Debug|x64 = Beta_Debug|x64
+		Beta_Release|x64 = Beta_Release|x64
+		Stable_Debug|x64 = Stable_Debug|x64
+		Stable_Release|x64 = Stable_Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{87417FD6-AD5D-403D-891F-989D1F23013C}.Beta_Debug|x64.ActiveCfg = Beta_Debug|x64
+		{87417FD6-AD5D-403D-891F-989D1F23013C}.Beta_Debug|x64.Build.0 = Beta_Debug|x64
+		{87417FD6-AD5D-403D-891F-989D1F23013C}.Beta_Release|x64.ActiveCfg = Beta_Release|x64
+		{87417FD6-AD5D-403D-891F-989D1F23013C}.Beta_Release|x64.Build.0 = Beta_Release|x64
+		{87417FD6-AD5D-403D-891F-989D1F23013C}.Stable_Debug|x64.ActiveCfg = Stable_Debug|x64
+		{87417FD6-AD5D-403D-891F-989D1F23013C}.Stable_Debug|x64.Build.0 = Stable_Debug|x64
+		{87417FD6-AD5D-403D-891F-989D1F23013C}.Stable_Release|x64.ActiveCfg = Stable_Release|x64
+		{87417FD6-AD5D-403D-891F-989D1F23013C}.Stable_Release|x64.Build.0 = Stable_Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{87417FD6-AD5D-403D-891F-989D1F23013C} = {B19E75DC-D663-4731-85FD-B2201277FDFB}
+		{B19E75DC-D663-4731-85FD-B2201277FDFB} = {AD3CA73B-9D28-4BD8-9D32-2C5BBAB1424F}
+		{055C8028-AE6F-4B13-A271-D574AA4A7E8D} = {AD3CA73B-9D28-4BD8-9D32-2C5BBAB1424F}
+		{19EC318D-841C-4B1F-A1D9-8E43180AE538} = {AD3CA73B-9D28-4BD8-9D32-2C5BBAB1424F}
+		{AD9FCF8C-B67A-4E3A-B34B-CF92CDABEDD8} = {055C8028-AE6F-4B13-A271-D574AA4A7E8D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F8C497D1-34D1-4B50-907F-595393097A03}
+	EndGlobalSection
+EndGlobal
