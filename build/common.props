@@ -29,7 +29,7 @@
     <!--BuildResources Version-->
     <BuildResourcesVersion>1.0.0.39</BuildResourcesVersion>
     <!--BUTRShared Version-->
-    <BUTRSharedVersion>2.0.0.71</BUTRSharedVersion>
+    <BUTRSharedVersion>2.0.0.78</BUTRSharedVersion>
     <!--ModuleManager Version-->
     <BUTRModuleManagerVersion>2.0.80</BUTRModuleManagerVersion>
     <!--ModuleLoader Version-->
