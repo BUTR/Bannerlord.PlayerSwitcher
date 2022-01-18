@@ -10,14 +10,14 @@ namespace PlayerSwitcher
 {
     internal class SyncBehavior : CampaignBehaviorBase
     {
-        public static SyncBehavior Instance { get; private set; }
+        public static SyncBehavior? Instance { get; private set; }
 
-        [SaveableField(0)]
-        public Clan Clan;
+        public Clan Clan { get => _clan; set => _clan = value; }
+        private Clan _clan = default!;
 
-        private Hero lastHero;
-        private MapEvent clanEvent;
-        private SiegeEvent clanSiegeEvent;
+        private Hero? lastHero;
+        private MapEvent? clanEvent;
+        private SiegeEvent? clanSiegeEvent;
 
 
         public SyncBehavior()

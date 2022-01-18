@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Module>
-  <Name value="PlayerSwitcher"/>
-  <Id value="$modulename$" />
+  <Name value="$modulename$"/>
+  <Id value="$moduleid$" />
   <Version value="v$version$" />
   <Official value="false" />
   <DefaultModule value="false" />
