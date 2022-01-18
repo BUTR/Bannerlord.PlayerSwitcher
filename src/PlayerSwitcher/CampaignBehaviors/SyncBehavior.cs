@@ -55,7 +55,7 @@ namespace PlayerSwitcher
                         }, null), true);
                     return;
                 }
-                
+
                 hero = party2.LeaderHero;
                 if (hero is not null && hero != Hero.MainHero && hero.Clan == Clan.PlayerClan)
                 {

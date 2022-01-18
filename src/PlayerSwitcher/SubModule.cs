@@ -23,7 +23,7 @@ namespace PlayerSwitcher
     {
         private delegate CampaignEventDispatcher GetCampaignEventDispatcherDelegate(Campaign instance);
         private static readonly GetCampaignEventDispatcherDelegate? GetCampaignEventDispatcher =
-            AccessTools2.GetPropertyGetterDelegate<GetCampaignEventDispatcherDelegate> (typeof(Campaign), "CampaignEventDispatcher");
+            AccessTools2.GetPropertyGetterDelegate<GetCampaignEventDispatcherDelegate>(typeof(Campaign), "CampaignEventDispatcher");
 
         private readonly Harmony _harmony = new("Bannerlord.PlayerSwitcher");
 
@@ -32,7 +32,7 @@ namespace PlayerSwitcher
             ClanPatch.Enable(_harmony);
             ChangeClanLeaderActionPatch.Enable(_harmony);
             SPInventoryVMPatch.Enable(_harmony);
-            
+
             base.OnSubModuleLoad();
         }
 
