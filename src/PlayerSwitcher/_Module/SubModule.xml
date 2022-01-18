@@ -27,13 +27,13 @@
     <DependedModuleMetadata id="CustomBattle" order="LoadBeforeThis" version="e$gameversion$.*" optional="true" />
   </DependedModuleMetadatas>
   <SubModules>
+    <!-- Bannerlord Module Loader. Do not change the name! -->
     <SubModule>
-      <Name value="$modulename$" />
-      <DLLName value="$modulename$.dll" />
-      <SubModuleClassType value="$modulename$.SubModule"/>
+      <Name value="Bannerlord Module Loader" />
+      <DLLName value="Bannerlord.ModuleLoader.$moduleid$.dll" />
+      <SubModuleClassType value="Bannerlord.ModuleLoader.$moduleidflat$" />
       <Tags>
-        <Tag key="DedicatedServerType" value="none"/>
-        <Tag key="IsNoRenderModeElement" value="false"/>
+        <Tag key="LoaderFilter" value ="$moduleid$.*.dll" />
       </Tags>
     </SubModule>
   </SubModules>

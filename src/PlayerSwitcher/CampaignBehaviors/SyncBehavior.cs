@@ -167,7 +167,7 @@ namespace PlayerSwitcher
         {
             try
             {
-                dataStore.SyncData("Clan", ref Clan);
+                dataStore.SyncData("Clan", ref _clan);
             }
             catch (Exception)
             {

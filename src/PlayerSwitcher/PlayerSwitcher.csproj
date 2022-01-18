@@ -1,4 +1,4 @@
-﻿<Project Sdk="Bannerlord.BUTRModule.Sdk/1.0.1.52">
+﻿<Project Sdk="Bannerlord.BUTRModule.Sdk/1.0.1.53">
 
   <PropertyGroup>
     <!--
@@ -36,7 +36,7 @@
     <!-- ModuleManager Version -->
     <BUTRModuleManagerVersion>2.0.80</BUTRModuleManagerVersion>
     <!-- ModuleLoader Version -->
-    <BUTRModuleLoaderVersion>1.0.1.22</BUTRModuleLoaderVersion>
+    <BUTRModuleLoaderVersion>1.0.1.23</BUTRModuleLoaderVersion>
     <!-- Harmony Extensions Version -->
     <HarmonyExtensionsVersion>2.0.0.51</HarmonyExtensionsVersion>
   </PropertyGroup>
