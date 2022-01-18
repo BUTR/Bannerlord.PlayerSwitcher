@@ -54,11 +54,11 @@ namespace PlayerSwitcher
                     return false;
                 }
                 var highestPoint = (from h in heirApparents
-                    orderby h.Value descending
-                    select h).FirstOrDefault().Value;
+                                    orderby h.Value descending
+                                    select h).FirstOrDefault().Value;
                 newLeader = (from h in heirApparents
-                    where h.Value.Equals(highestPoint)
-                    select h).GetRandomElementInefficiently().Key;
+                             where h.Value.Equals(highestPoint)
+                             select h).GetRandomElementInefficiently().Key;
             }
             GiveGoldAction.ApplyBetweenCharacters(leader, newLeader, leader.Gold, true);
             if (newLeader.GovernorOf is not null)
