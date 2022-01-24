@@ -74,6 +74,48 @@ namespace Bannerlord.PlayerSwitcher
             Campaign.Current.TimeControlMode = CampaignTimeControlMode.Stop;
         }
 
+        public void SelectPlayerClanHeroes()
+        {
+            static IEnumerable<Hero> GetHeroes(Clan clan)
+            {
+                foreach (var hero in clan.Heroes)
+                {
+                    if (hero is null)
+                        continue;
+
+                    if (!hero.IsAlive)
+                        continue;
+
+                    yield return hero;
+                }
+            }
+
+            static IEnumerable<InquiryElement> ClanInquiries(Clan clan)
+            {
+                foreach (var hero in GetHeroes(clan))
+                {
+                    var parent = new TextObject("{HERO.NAME}");
+                    StringHelpers.SetCharacterProperties("HERO", hero.CharacterObject, parent);
+                    yield return new InquiryElement(hero, parent.ToString(), new ImageIdentifier(CharacterCode.CreateFrom(hero.CharacterObject)));
+                }
+            }
+
+            InformationManager.ShowMultiSelectionInquiry(
+                new MultiSelectionInquiryData(
+                    new TextObject("{=VfJiuott1b}Player Switcher").ToString(),
+                    new TextObject("{=yP5F99s3ti}Select a hero to play as.").ToString(),
+                    ClanInquiries(Clan.PlayerClan).ToList(),
+                    true,
+                    1,
+                    new TextObject("{=WiNRdfsm}Done").ToString(),
+                    "",
+                    OnHeroSelectionOver,
+                    null)
+            );
+
+            Campaign.Current.TimeControlMode = CampaignTimeControlMode.Stop;
+        }
+
         private void OnFactionSelectionOver(List<InquiryElement> element)
         {
             static IEnumerable<Hero> GetHeroes(Clan clan)

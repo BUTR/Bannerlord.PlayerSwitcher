@@ -1,7 +1,6 @@
 ﻿using Bannerlord.ButterLib.HotKeys;
 
 using TaleWorlds.CampaignSystem;
-using TaleWorlds.Core;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
@@ -17,6 +16,7 @@ namespace Bannerlord.PlayerSwitcher.HotKeys
         protected override InputKey DefaultKey { get; }
         protected override string Category { get; }
 
+        private bool _isKeyDown;
 
         public SwitchKey() : base(nameof(SwitchKey))
         {
@@ -26,19 +26,41 @@ namespace Bannerlord.PlayerSwitcher.HotKeys
             Category = HotKeyManager.Categories[HotKeyCategory.CampaignMap];
         }
 
-        protected override void OnPressed()
+        protected override void IsDown()
         {
-            if (SwitchManager.Instance is null) return;
-            if (Campaign.Current is null) return;
-            if (Mission.Current is not null) return;
+            _isKeyDown = true;
 
-            if (Hero.MainHero.CurrentSettlement is not null)
+            base.IsDown();
+        }
+
+        protected override void OnReleased()
+        {
+            if (_isKeyDown)
             {
-                MessageHelper.DisplayMessage(new TextObject("{=WQQBeAQcyc}Leave your current settlement before switching players so the game can close the menu and unload the interface at the top of the screen that shows all the notables."));
-                return;
+                _isKeyDown = false;
+
+                if (SwitchManager.Instance is null) return;
+                if (Settings.Instance is not { } settings) return;
+                if (Campaign.Current is null) return;
+                if (Mission.Current is not null) return;
+
+                if (Hero.MainHero.CurrentSettlement is not null)
+                {
+                    MessageHelper.DisplayMessage(new TextObject("{=WQQBeAQcyc}Leave your current settlement before switching players so the game can close the menu and unload the interface at the top of the screen that shows all the notables."));
+                    return;
+                }
+
+                if (settings.CheatMode)
+                {
+                    SwitchManager.Instance.SelectClan();
+                }
+                else
+                {
+                    SwitchManager.Instance.SelectPlayerClanHeroes();
+                }
             }
 
-            SwitchManager.Instance.SelectClan();
+            base.OnReleased();
         }
     }
 }

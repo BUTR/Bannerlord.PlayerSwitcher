@@ -26,7 +26,10 @@
     <string id="yP5F99s3ti" text="Select a hero to play as." />
 
     <string id="SW2ZF7BsYv" text="Player Switcher {VERSION}" />
-    <string id="f9cYRLIkLn" text="Enabling this will alert you when clan members are in battle so you can switch to them." />
     <string id="qe3elfFGkN" text="Gameplay" />
+    <string id="qLPesYzLHy" text="Switch Messages." />
+    <string id="f9cYRLIkLn" text="Enabling this will alert you when clan members are in battle so you can switch to them." />
+    <string id="07kUenp2b3" text="Cheat Mode" />
+    <string id="BtV9T3hhIg" text="Switch between different clans." />
   </strings>
 </base>
