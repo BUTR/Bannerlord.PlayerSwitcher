@@ -3,13 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlayerSwitcher", "PlayerSwitcher\PlayerSwitcher.csproj", "{87417FD6-AD5D-403D-891F-989D1F23013C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bannerlord.PlayerSwitcher", "Bannerlord.PlayerSwitcher\Bannerlord.PlayerSwitcher.csproj", "{87417FD6-AD5D-403D-891F-989D1F23013C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "root", "root", "{AD3CA73B-9D28-4BD8-9D32-2C5BBAB1424F}"
 	ProjectSection(SolutionItems) = preProject
 		..\.editorconfig = ..\.editorconfig
 		..\README.md = ..\README.md
-		..\supported-game-versions.txt = ..\supported-game-versions.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B19E75DC-D663-4731-85FD-B2201277FDFB}"
@@ -19,6 +18,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{19EC318D-841C-4B1F-A1D9-8E43180AE538}"
 	ProjectSection(SolutionItems) = preProject
 		..\.github\workflows\dotnet-format-daily.yml = ..\.github\workflows\dotnet-format-daily.yml
+		..\.github\workflows\publish.yml = ..\.github\workflows\publish.yml
 		..\.github\workflows\test-build.yml = ..\.github\workflows\test-build.yml
 	EndProjectSection
 EndProject

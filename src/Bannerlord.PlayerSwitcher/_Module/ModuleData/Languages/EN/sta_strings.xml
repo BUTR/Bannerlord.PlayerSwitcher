@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<base xmlns="https://github.com/BUTR/Bannerlord.XmlSchemas"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="https://github.com/BUTR/Bannerlord.XmlSchemas
+                          https://raw.githubusercontent.com/BUTR/Bannerlord.XmlSchemas/master/ModuleLanguage.xsd" >
+  <tags>
+    <tag language="English" />
+  </tags>
+  <strings>
+    <string id="QKCOKf5jRM" text="{LEADER} is attacking {DEFENDERS}. Switch to {LEADER}?" />
+    <string id="jOyHIwxmhb" text="{LEADER} is being attacked by {ATTACKERS}. Switch to {LEADER}?" />
+    <string id="DMtEOm8C2W" text="Switch back to {LAST_HERO}?" />
+    <string id="G0pTcJD6cG" text="{LEADER} is besieging {SETTLEMENT}. Switch to {LEADER}?" />
+    <string id="OHKrGhoLp3" text="{SETTLEMENT} is under siege by {ATTACKERS}. Switch to {LEADER}?" />
+    <string id="FxvQbHocXL" text="Switch back to {LAST_HERO}?" />
+
+    <string id="Ooz4Z5vMZR" text="Switch Player Hero" />
+    <string id="CGoVgCVK7t" text="Switches the currently played hero." />
+    <string id="WQQBeAQcyc" text="Leave your current settlement before switching players so the game can close the menu and unload the interface at the top of the screen that shows all the notables." />
+ 
+    <string id="CjU71TGHWq" text="Posse of {LEADER}" />
+
+    <string id="nqwp2XsNFW" text="Player Switched To {LEADER}" />
+    <string id="VfJiuott1b" text="Player Switcher" />
+    <string id="3H7NmYfKn6" text="Select a clan to choose from their heroes." />
+    <string id="yP5F99s3ti" text="Select a hero to play as." />
+
+    <string id="SW2ZF7BsYv" text="Player Switcher {VERSION}" />
+    <string id="f9cYRLIkLn" text="Enabling this will alert you when clan members are in battle so you can switch to them." />
+    <string id="qe3elfFGkN" text="Gameplay" />
+  </strings>
+</base>

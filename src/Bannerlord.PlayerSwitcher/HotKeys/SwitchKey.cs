@@ -1,13 +1,14 @@
 ﻿using Bannerlord.ButterLib.HotKeys;
 
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.Core;
 using TaleWorlds.InputSystem;
+using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
 
 using HotKeyManager = Bannerlord.ButterLib.HotKeys.HotKeyManager;
 
-
-namespace PlayerSwitcher.HotKeys
+namespace Bannerlord.PlayerSwitcher.HotKeys
 {
     internal class SwitchKey : HotKeyBase
     {
@@ -19,27 +20,25 @@ namespace PlayerSwitcher.HotKeys
 
         public SwitchKey() : base(nameof(SwitchKey))
         {
-            DisplayName = "Switch Player Hero";
-            Description = "We understand how dangerous a mask can be. We all become what we pretend to be.";
+            DisplayName = "{=Ooz4Z5vMZR}Switch Player Hero";
+            Description = "{CGoVgCVK7t=}Switches the currently played hero.";
             DefaultKey = InputKey.End;
             Category = HotKeyManager.Categories[HotKeyCategory.CampaignMap];
-            Predicate = IsKeyActive;
-        }
-
-        private bool IsKeyActive()
-        {
-            return Campaign.Current is not null && Mission.Current is null;
         }
 
         protected override void OnPressed()
         {
+            if (SwitchManager.Instance is null) return;
+            if (Campaign.Current is null) return;
+            if (Mission.Current is not null) return;
+
             if (Hero.MainHero.CurrentSettlement is not null)
             {
-                MessageHelper.DisplayMessage("Leave your current settlement before switching players so the game can close the menu and unload the interface at the top of the screen that shows all the notables.");
+                MessageHelper.DisplayMessage(new TextObject("{=WQQBeAQcyc}Leave your current settlement before switching players so the game can close the menu and unload the interface at the top of the screen that shows all the notables."));
                 return;
             }
 
-            SubModule.SelectClan();
+            SwitchManager.Instance.SelectClan();
         }
     }
 }

@@ -1,3 +1,5 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/github-workflow.json
+
 name: Daily Code Format Check
 
 on:
@@ -12,5 +14,5 @@ jobs:
       - name: Code Formatting
         uses: butr/actions-code-format-setup@v1.5
         with:
-          workspace: "src/PlayerSwitcher.sln"
+          workspace: "src/Bannerlord.PlayerSwitcher.sln"
           github-token: ${{ secrets.GITHUB_TOKEN }}
