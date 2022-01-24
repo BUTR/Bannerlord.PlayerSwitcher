@@ -5,7 +5,7 @@ using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.ViewModelCollection;
 using TaleWorlds.Core.ViewModelCollection;
 
-namespace PlayerSwitcher
+namespace Bannerlord.PlayerSwitcher.Patches
 {
     public class SPInventoryVMPatch
     {
@@ -15,19 +15,15 @@ namespace PlayerSwitcher
 
         public static bool Enable(Harmony harmony)
         {
-            harmony.Patch(
+            return harmony.TryPatch(
                 original: AccessTools2.Method(typeof(SPInventoryVM), "OnCharacterSelected"),
-                prefix: new HarmonyMethod(typeof(SPInventoryVMPatch).GetMethod(nameof(OnCharacterSelectedPrefix))));
-
-            return true;
+                prefix: AccessTools2.Method(typeof(SPInventoryVMPatch), nameof(OnCharacterSelectedPrefix)));
         }
 
         private static bool OnCharacterSelectedPrefix(SPInventoryVM __instance, InventoryLogic? ____inventoryLogic, SelectorVM<SelectorItemVM> selector)
         {
             if (____inventoryLogic is null)
-            {
                 return false;
-            }
 
             var selected = selector.SelectedItem?.StringItem ?? Hero.MainHero.Name.ToString();
 

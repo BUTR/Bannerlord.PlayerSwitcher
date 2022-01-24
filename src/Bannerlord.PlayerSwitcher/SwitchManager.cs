@@ -1,11 +1,8 @@
-﻿using Bannerlord.BUTR.Shared.Extensions;
+﻿using Bannerlord.PlayerSwitcher.CampaignBehaviors;
 
-using HarmonyLib;
 using HarmonyLib.BUTR.Extensions;
 
 using Helpers;
-
-using PlayerSwitcher.HotKeys;
 
 using System.Collections.Generic;
 using System.Linq;
@@ -15,68 +12,44 @@ using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
-using TaleWorlds.MountAndBlade;
 
-namespace PlayerSwitcher
+namespace Bannerlord.PlayerSwitcher
 {
-    public sealed class SubModule : MBSubModuleBase
+    public sealed class SwitchManager
     {
         private delegate CampaignEventDispatcher GetCampaignEventDispatcherDelegate(Campaign instance);
         private static readonly GetCampaignEventDispatcherDelegate? GetCampaignEventDispatcher =
             AccessTools2.GetPropertyGetterDelegate<GetCampaignEventDispatcherDelegate>(typeof(Campaign), "CampaignEventDispatcher");
 
-        private readonly Harmony _harmony = new("Bannerlord.PlayerSwitcher");
+        public static SwitchManager? Instance { get; private set; }
 
-        protected override void OnSubModuleLoad()
+        public SwitchManager()
         {
-            ClanPatch.Enable(_harmony);
-            ChangeClanLeaderActionPatch.Enable(_harmony);
-            SPInventoryVMPatch.Enable(_harmony);
-
-            base.OnSubModuleLoad();
+            Instance = this;
         }
 
-        protected override void OnBeforeInitialModuleScreenSetAsRoot()
+        public void SelectClan()
         {
-            if (Bannerlord.ButterLib.HotKeys.HotKeyManager.Create("PlayerSwitcher") is { } hkm)
+            static IEnumerable<Clan> GetAllHeirApparents()
             {
-                hkm.Add<SwitchKey>();
-                hkm.Build();
+                foreach (var clan in Clan.All)
+                {
+                    if (clan is null)
+                        continue;
+
+                    if (clan.Heroes.Count == 0)
+                        continue;
+
+                    if (clan == Clan.PlayerClan && clan.Heroes.Count == 1)
+                        continue;
+
+                    yield return clan;
+                }
             }
 
-            base.OnBeforeInitialModuleScreenSetAsRoot();
-        }
-
-        protected override void OnGameStart(Game game, IGameStarter gameStarterObject)
-        {
-            if (game.GameType is Campaign && gameStarterObject is CampaignGameStarter cgs)
-            {
-                cgs.AddBehavior(new SyncBehavior());
-            }
-        }
-
-        private static IEnumerable<Clan> HeirApparents()
-        {
-            foreach (var clan in Clan.All)
-            {
-                if (clan is null)
-                    continue;
-
-                if (clan.Heroes.Count == 0)
-                    continue;
-
-                if (clan == Clan.PlayerClan && clan.Heroes.Count == 1)
-                    continue;
-
-                yield return clan;
-            }
-        }
-
-        internal static void SelectClan()
-        {
             static IEnumerable<InquiryElement> ClanInquiries()
             {
-                foreach (var clan in HeirApparents().OrderBy(x => x.Tier))
+                foreach (var clan in GetAllHeirApparents().OrderBy(x => x.Tier))
                 {
                     if (clan.StringId == "neutral")
                         continue;
@@ -87,12 +60,12 @@ namespace PlayerSwitcher
 
             InformationManager.ShowMultiSelectionInquiry(
                 new MultiSelectionInquiryData(
-                    new TextObject("Player Switcher").ToString(),
-                    new TextObject("Select a clan to choose from their heroes.").ToString(),
+                    new TextObject("{=VfJiuott1b}Player Switcher").ToString(),
+                    new TextObject("{=3H7NmYfKn6}Select a clan to choose from their heroes.").ToString(),
                     ClanInquiries().ToList(),
                     true,
                     1,
-                    new TextObject("Done").ToString(),
+                    new TextObject("{=WiNRdfsm}Done").ToString(),
                     "",
                     OnFactionSelectionOver,
                     null)
@@ -101,8 +74,67 @@ namespace PlayerSwitcher
             Campaign.Current.TimeControlMode = CampaignTimeControlMode.Stop;
         }
 
-        private static void OnFactionSelectionOver(List<InquiryElement> element)
+        public void SelectPlayerClanHeroes()
         {
+            static IEnumerable<Hero> GetHeroes(Clan clan)
+            {
+                foreach (var hero in clan.Heroes)
+                {
+                    if (hero is null)
+                        continue;
+
+                    if (!hero.IsAlive)
+                        continue;
+
+                    yield return hero;
+                }
+            }
+
+            static IEnumerable<InquiryElement> ClanInquiries(Clan clan)
+            {
+                foreach (var hero in GetHeroes(clan))
+                {
+                    var parent = new TextObject("{HERO.NAME}");
+                    StringHelpers.SetCharacterProperties("HERO", hero.CharacterObject, parent);
+                    yield return new InquiryElement(hero, parent.ToString(), new ImageIdentifier(CharacterCode.CreateFrom(hero.CharacterObject)));
+                }
+            }
+
+            InformationManager.ShowMultiSelectionInquiry(
+                new MultiSelectionInquiryData(
+                    new TextObject("{=VfJiuott1b}Player Switcher").ToString(),
+                    new TextObject("{=yP5F99s3ti}Select a hero to play as.").ToString(),
+                    ClanInquiries(Clan.PlayerClan).ToList(),
+                    true,
+                    1,
+                    new TextObject("{=WiNRdfsm}Done").ToString(),
+                    "",
+                    OnHeroSelectionOver,
+                    null)
+            );
+
+            Campaign.Current.TimeControlMode = CampaignTimeControlMode.Stop;
+        }
+
+        private void OnFactionSelectionOver(List<InquiryElement> element)
+        {
+            static IEnumerable<Hero> GetHeroes(Clan clan)
+            {
+                foreach (var hero in clan.Heroes)
+                {
+                    if (hero is null)
+                        continue;
+
+                    if (hero == Hero.MainHero)
+                        continue;
+
+                    if (!hero.IsAlive)
+                        continue;
+
+                    yield return hero;
+                }
+            }
+
             static IEnumerable<InquiryElement> ClanInquiries(Clan clan)
             {
                 foreach (var hero in GetHeroes(clan))
@@ -118,46 +150,30 @@ namespace PlayerSwitcher
 
             InformationManager.ShowMultiSelectionInquiry(
                 new MultiSelectionInquiryData(
-                    new TextObject("Player Switcher").ToString(),
-                    new TextObject("Select a hero to play as.").ToString(),
+                    new TextObject("{=VfJiuott1b}Player Switcher").ToString(),
+                    new TextObject("{=yP5F99s3ti}Select a hero to play as.").ToString(),
                     ClanInquiries(clan).ToList(),
                     true,
                     1,
-                    new TextObject("DONE").ToString(),
+                    new TextObject("{=WiNRdfsm}Done").ToString(),
                     "",
                     OnHeroSelectionOver,
                     null)
             );
         }
 
-        private static IEnumerable<Hero> GetHeroes(Clan clan)
+        private void OnHeroSelectionOver(List<InquiryElement> element)
         {
-            foreach (var hero in clan.Heroes)
-            {
-                if (hero is null)
-                    continue;
-
-                if (hero == Hero.MainHero)
-                    continue;
-
-                if (!hero.IsAlive)
-                    continue;
-
-                yield return hero;
-            }
-        }
-
-        private static void OnHeroSelectionOver(List<InquiryElement> element)
-        {
-            if (element.First().Identifier is not Hero selectedHeir)
-                return;
+            if (element.First().Identifier is not Hero selectedHeir) return;
 
             SwitchPlayer(selectedHeir.Clan, selectedHeir);
         }
 
-        internal static void SwitchPlayer(Clan selectedClan, Hero selectedHeir)
+        public void SwitchPlayer(Clan selectedClan, Hero selectedHeir)
         {
-            SyncBehavior.Instance.Clan = selectedClan;
+            if (StorageCampaignBehavior.Instance is not { } storageCampaignBehavior) return;
+
+            storageCampaignBehavior.SelectedClan = selectedClan;
             var oldLeader = selectedClan.Leader;
             var selectedNotLeader = selectedHeir != oldLeader;
             if (selectedNotLeader) ApplyWithSelectedNewLeader(selectedClan, selectedHeir);
@@ -175,7 +191,7 @@ namespace PlayerSwitcher
 
             ChangePlayerCharacterAction.Apply(selectedHeir);
             if (selectedHeir != oldLeader) ApplyWithSelectedNewLeader(selectedClan, oldLeader);
-            MessageHelper.DisplayMessage($"Player Switched To {selectedHeir.Name}", Colors.Green);
+            MessageHelper.DisplayMessage(new TextObject("{=nqwp2XsNFW}Player Switched To {LEADER}").SetTextVariable("LEADER", selectedHeir.Name), Colors.Green);
         }
 
         private static void ApplyWithSelectedNewLeader(Clan clan, Hero? newLeader = null)

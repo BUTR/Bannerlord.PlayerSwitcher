@@ -8,7 +8,7 @@ using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.Core;
 using TaleWorlds.Localization;
 
-namespace PlayerSwitcher
+namespace Bannerlord.PlayerSwitcher.Patches
 {
     public class ChangeClanLeaderActionPatch
     {
@@ -22,20 +22,19 @@ namespace PlayerSwitcher
 
         public static bool Enable(Harmony harmony)
         {
-            harmony.Patch(
+            return harmony.TryPatch(
                 original: AccessTools2.Method(typeof(ChangeClanLeaderAction), "ApplyInternal"),
-                prefix: new HarmonyMethod(typeof(ChangeClanLeaderActionPatch).GetMethod(nameof(ApplyInternalPrefix))));
-
-            return true;
+                prefix: AccessTools2.Method(typeof(ChangeClanLeaderActionPatch), nameof(ApplyInternalPrefix)));
         }
 
-        private static bool ApplyInternalPrefix(Clan clan, Hero? newLeader = null)
+        private static bool ApplyInternalPrefix(Clan clan, Hero? newLeader)
         {
             Hero leader;
             if (clan.StringId == "neutral")
             {
                 clan = new Clan();
-                var name = new TextObject($"Posse of {newLeader.Name}");
+                var name = new TextObject("{=CjU71TGHWq}Posse of {LEADER}")
+                    .SetTextVariable("LEADER", newLeader.Name);
                 clan.InitializeClan(name, name, newLeader.Culture, Banner.CreateRandomClanBanner());
                 leader = newLeader;
                 leader.Clan = clan;
@@ -53,12 +52,8 @@ namespace PlayerSwitcher
                 {
                     return false;
                 }
-                var highestPoint = (from h in heirApparents
-                                    orderby h.Value descending
-                                    select h).FirstOrDefault().Value;
-                newLeader = (from h in heirApparents
-                             where h.Value.Equals(highestPoint)
-                             select h).GetRandomElementInefficiently().Key;
+                var highestPoint = heirApparents.OrderByDescending(h => h.Value).FirstOrDefault().Value;
+                newLeader = heirApparents.Where(h => h.Value.Equals(highestPoint)).GetRandomElementInefficiently().Key;
             }
             GiveGoldAction.ApplyBetweenCharacters(leader, newLeader, leader.Gold, true);
             if (newLeader.GovernorOf is not null)
