@@ -86,7 +86,7 @@ namespace Bannerlord.PlayerSwitcher
                     if (hero == Hero.MainHero)
                         continue;
 
-                    if (!hero.IsPartyLeader)
+                    if (hero.CompanionOf is not null)
                         continue;
 
                     if (!hero.IsAlive)
@@ -117,7 +117,7 @@ namespace Bannerlord.PlayerSwitcher
                 new MultiSelectionInquiryData(
                     new TextObject("{=VfJiuott1b}Player Switcher").ToString(),
                     new TextObject("{=yP5F99s3ti}Select a hero to play as.").ToString(),
-                    ClanInquiries(Clan.PlayerClan).ToList(),
+                    inquiries,
                     true,
                     1,
                     new TextObject("{=WiNRdfsm}Done").ToString(),
@@ -141,7 +141,7 @@ namespace Bannerlord.PlayerSwitcher
                     if (hero == Hero.MainHero)
                         continue;
 
-                    if (!hero.IsPartyLeader)
+                    if (hero.CompanionOf is not null)
                         continue;
 
                     if (!hero.IsAlive)
@@ -164,11 +164,18 @@ namespace Bannerlord.PlayerSwitcher
             if (element.First().Identifier is not Clan clan)
                 return;
 
+            var inquiries = ClanInquiries(clan).ToList();
+            if (inquiries.Count == 0)
+            {
+                MessageHelper.DisplayMessage(new TextObject("{=aqTKT8UyBg}You don't have anyone to switch to!"), Colors.Green);
+                return;
+            }
+
             InformationManager.ShowMultiSelectionInquiry(
                 new MultiSelectionInquiryData(
                     new TextObject("{=VfJiuott1b}Player Switcher").ToString(),
                     new TextObject("{=yP5F99s3ti}Select a hero to play as.").ToString(),
-                    ClanInquiries(clan).ToList(),
+                    inquiries,
                     true,
                     1,
                     new TextObject("{=WiNRdfsm}Done").ToString(),
