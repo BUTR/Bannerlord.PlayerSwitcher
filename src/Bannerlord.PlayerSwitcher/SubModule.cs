@@ -15,6 +15,8 @@ namespace Bannerlord.PlayerSwitcher
     {
         private readonly Harmony _harmony = new("Bannerlord.PlayerSwitcher");
 
+        private bool _isInitialized;
+
         protected override void OnSubModuleLoad()
         {
             ClanPatch.Enable(_harmony);
@@ -26,10 +28,15 @@ namespace Bannerlord.PlayerSwitcher
 
         protected override void OnBeforeInitialModuleScreenSetAsRoot()
         {
-            if (HotKeyManager.Create("Bannerlord.PlayerSwitcher") is { } hkm)
+            if (!_isInitialized)
             {
-                hkm.Add<SwitchKey>();
-                hkm.Build();
+                _isInitialized = true;
+
+                if (HotKeyManager.Create("Bannerlord.PlayerSwitcher") is { } hkm)
+                {
+                    hkm.Add<SwitchKey>();
+                    hkm.Build();
+                }
             }
 
             base.OnBeforeInitialModuleScreenSetAsRoot();
