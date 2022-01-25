@@ -11,8 +11,8 @@ namespace Bannerlord.PlayerSwitcher.CampaignBehaviors
     {
         public static StorageCampaignBehavior? Instance { get; private set; }
 
-        private readonly SwitchManager _switchManager = new(); 
-        
+        private readonly SwitchManager _switchManager = new();
+
         public Clan SelectedClan { get => _selectedClan; set => _selectedClan = value; }
         private Clan _selectedClan = default!;
 
