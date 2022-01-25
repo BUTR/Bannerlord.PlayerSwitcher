@@ -83,6 +83,12 @@ namespace Bannerlord.PlayerSwitcher
                     if (hero is null)
                         continue;
 
+                    if (hero == Hero.MainHero)
+                        continue;
+
+                    if (!hero.IsPartyLeader)
+                        continue;
+
                     if (!hero.IsAlive)
                         continue;
 
@@ -98,6 +104,13 @@ namespace Bannerlord.PlayerSwitcher
                     StringHelpers.SetCharacterProperties("HERO", hero.CharacterObject, parent);
                     yield return new InquiryElement(hero, parent.ToString(), new ImageIdentifier(CharacterCode.CreateFrom(hero.CharacterObject)));
                 }
+            }
+
+            var inquiries = ClanInquiries(Clan.PlayerClan).ToList();
+            if (inquiries.Count == 0)
+            {
+                MessageHelper.DisplayMessage(new TextObject("{=aqTKT8UyBg}You don't have anyone to switch to!"), Colors.Green);
+                return;
             }
 
             InformationManager.ShowMultiSelectionInquiry(
@@ -126,6 +139,9 @@ namespace Bannerlord.PlayerSwitcher
                         continue;
 
                     if (hero == Hero.MainHero)
+                        continue;
+
+                    if (!hero.IsPartyLeader)
                         continue;
 
                     if (!hero.IsAlive)
@@ -169,29 +185,26 @@ namespace Bannerlord.PlayerSwitcher
             SwitchPlayer(selectedHeir.Clan, selectedHeir);
         }
 
-        public void SwitchPlayer(Clan selectedClan, Hero selectedHeir)
+        public void SwitchPlayer(Clan selectedClan, Hero newLeader)
         {
             if (StorageCampaignBehavior.Instance is not { } storageCampaignBehavior) return;
 
             storageCampaignBehavior.SelectedClan = selectedClan;
             var oldLeader = selectedClan.Leader;
-            var selectedNotLeader = selectedHeir != oldLeader;
-            if (selectedNotLeader) ApplyWithSelectedNewLeader(selectedClan, selectedHeir);
 
-            if (selectedHeir.CurrentSettlement is not null)
+            var selectedNotLeader = newLeader != oldLeader;
+            if (selectedNotLeader) ApplyWithSelectedNewLeader(selectedClan, newLeader);
+
+            if (newLeader.CurrentSettlement != null && newLeader.PartyBelongedTo != null)
             {
-                var mp = selectedHeir.PartyBelongedTo;
-                if (mp is not null)
-                {
-                    mp.IsDisbanding = false;
-                    LeaveSettlementAction.ApplyForCharacterOnly(selectedHeir);
-                    LeaveSettlementAction.ApplyForParty(mp);
-                }
+                LeaveSettlementAction.ApplyForCharacterOnly(newLeader);
+                LeaveSettlementAction.ApplyForParty(newLeader.PartyBelongedTo);
             }
 
-            ChangePlayerCharacterAction.Apply(selectedHeir);
-            if (selectedHeir != oldLeader) ApplyWithSelectedNewLeader(selectedClan, oldLeader);
-            MessageHelper.DisplayMessage(new TextObject("{=nqwp2XsNFW}Player Switched To {LEADER}").SetTextVariable("LEADER", selectedHeir.Name), Colors.Green);
+            ChangePlayerCharacterAction.Apply(newLeader);
+            if (newLeader != oldLeader) ApplyWithSelectedNewLeader(selectedClan, oldLeader);
+
+            MessageHelper.DisplayMessage(new TextObject("{=nqwp2XsNFW}Player Switched To {LEADER}").SetTextVariable("LEADER", newLeader.Name), Colors.Green);
         }
 
         private static void ApplyWithSelectedNewLeader(Clan clan, Hero? newLeader = null)
