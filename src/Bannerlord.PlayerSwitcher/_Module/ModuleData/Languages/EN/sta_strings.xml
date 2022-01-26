@@ -35,6 +35,6 @@
     <string id="qLPesYzLHy" text="Switch Messages." />
     <string id="f9cYRLIkLn" text="Enabling this will alert you when clan members are in battle so you can switch to them." />
     <string id="07kUenp2b3" text="Cheat Mode" />
-    <string id="BtV9T3hhIg" text="Switch between different clans." />
+    <string id="BtV9T3hhIg" text="Switch between different clans. DANGER! Might be unstable!" />
   </strings>
 </base>

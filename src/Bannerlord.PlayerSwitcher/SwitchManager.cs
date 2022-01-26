@@ -22,6 +22,10 @@ namespace Bannerlord.PlayerSwitcher
         private static readonly GetCampaignEventDispatcherDelegate? GetCampaignEventDispatcher =
             AccessTools2.GetPropertyGetterDelegate<GetCampaignEventDispatcherDelegate>(typeof(Campaign), "CampaignEventDispatcher");
 
+        private delegate void SetPlayerDefaultFactionDelegate(Campaign instance, Clan value);
+        private static readonly SetPlayerDefaultFactionDelegate? SetPlayerDefaultFaction =
+            AccessTools2.GetPropertySetterDelegate<SetPlayerDefaultFactionDelegate>(typeof(Campaign), "PlayerDefaultFaction");
+
         public static SwitchManager? Instance { get; private set; }
 
         public SwitchManager()
@@ -211,8 +215,24 @@ namespace Bannerlord.PlayerSwitcher
                 ChangeGovernorAction.Apply(newLeader.GovernorOf, null);
             }
 
+            // The current flow:
+            // 1.   Game.Current.PlayerTroop is Hero.CharacterObject
+            // 2.   Trigger CampaignEventDispatcher.Instance.OnBeforePlayerCharacterChanged
+            // 2.1. HeirSelectionCampaignBehavior listens to it, we disable it via ChangePlayerCharacterActionHandler
+            // 3.   Trigger Campaign.Current.OnPlayerCharacterChanged
+            // 3.1. Campaign.Current.MainParty is the Hero's party
+            // 3.2. If the Party is not null, leave the settlement, else the Hero leaves
+            // 3.3. Reassign Campaign.Current.PlayerTraitDeveloper
+            // 3.4. Create Campaign.Current.MainParty if it didn't exists yet
+            // 3.5. Other minor stuff
+            // 4.   Trigger CampaignEventDispatcher.Instance.OnPlayerCharacterChanged
+            // 4.1. HeirSelectionCampaignBehavior listens to it, we disable it via ChangePlayerCharacterActionHandler
             using (new ChangePlayerCharacterActionHandler())
                 ChangePlayerCharacterAction.Apply(newLeader);
+
+            // Set Campaign.Current.PlayerDefaultFaction
+            if (SetPlayerDefaultFaction is not null)
+                SetPlayerDefaultFaction(Campaign.Current, selectedClan);
 
             if (Settings.Instance is { CheatMode: true })
             {
