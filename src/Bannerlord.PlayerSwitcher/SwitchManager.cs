@@ -1,4 +1,5 @@
 ﻿using Bannerlord.PlayerSwitcher.CampaignBehaviors;
+using Bannerlord.PlayerSwitcher.Patches;
 
 using HarmonyLib.BUTR.Extensions;
 
@@ -83,13 +84,16 @@ namespace Bannerlord.PlayerSwitcher
                     if (hero is null)
                         continue;
 
+                    if (!hero.IsAlive)
+                        continue;
+
                     if (hero == Hero.MainHero)
                         continue;
 
                     if (hero.CompanionOf is not null)
                         continue;
 
-                    if (!hero.IsAlive)
+                    if (hero.PartyBelongedTo is not null && hero.PartyBelongedTo.LeaderHero != hero)
                         continue;
 
                     yield return hero;
@@ -138,13 +142,16 @@ namespace Bannerlord.PlayerSwitcher
                     if (hero is null)
                         continue;
 
+                    if (!hero.IsAlive)
+                        continue;
+
                     if (hero == Hero.MainHero)
                         continue;
 
                     if (hero.CompanionOf is not null)
                         continue;
 
-                    if (!hero.IsAlive)
+                    if (hero.PartyBelongedTo is null || hero.PartyBelongedTo.LeaderHero != hero)
                         continue;
 
                     yield return hero;
@@ -197,57 +204,28 @@ namespace Bannerlord.PlayerSwitcher
             if (StorageCampaignBehavior.Instance is not { } storageCampaignBehavior) return;
 
             storageCampaignBehavior.SelectedClan = selectedClan;
-            var oldLeader = selectedClan.Leader;
 
-            var selectedNotLeader = newLeader != oldLeader;
-            if (selectedNotLeader) ApplyWithSelectedNewLeader(selectedClan, newLeader);
-
-            if (newLeader.CurrentSettlement != null && newLeader.PartyBelongedTo != null)
-            {
-                LeaveSettlementAction.ApplyForCharacterOnly(newLeader);
-                LeaveSettlementAction.ApplyForParty(newLeader.PartyBelongedTo);
-            }
-
-            ChangePlayerCharacterAction.Apply(newLeader);
-            if (newLeader != oldLeader) ApplyWithSelectedNewLeader(selectedClan, oldLeader);
-
-            MessageHelper.DisplayMessage(new TextObject("{=nqwp2XsNFW}Player Switched To {LEADER}").SetTextVariable("LEADER", newLeader.Name), Colors.Green);
-        }
-
-        private static void ApplyWithSelectedNewLeader(Clan clan, Hero? newLeader = null)
-        {
-            var leader = clan.Leader;
-            if (newLeader is null)
-            {
-                var heirApparents = leader.Clan.GetHeirApparents();
-                if (heirApparents.Count == 0)
-                {
-                    return;
-                }
-                var highestPoint = heirApparents.OrderByDescending(h => h.Value).FirstOrDefault().Value;
-                newLeader = heirApparents.Where(h => h.Value.Equals(highestPoint)).GetRandomElementInefficiently().Key;
-            }
+            // We play the Hero now, he can't be a Governor anymore
             if (newLeader.GovernorOf is not null)
             {
                 ChangeGovernorAction.Apply(newLeader.GovernorOf, null);
             }
-            if (!newLeader.IsPrisoner && !newLeader.IsFugitive && !newLeader.IsReleased)
+
+            using (new ChangePlayerCharacterActionHandler())
+                ChangePlayerCharacterAction.Apply(newLeader);
+
+            if (Settings.Instance is { CheatMode: true })
             {
-                var mobileParty = newLeader.PartyBelongedTo ?? clan.CreateNewMobileParty(newLeader);
-                if (mobileParty.LeaderHero != newLeader)
+                var currentLeader = selectedClan.Leader;
+                if (newLeader != currentLeader)
                 {
-#if e160 || e161 || e162 || e163 || e164 || e165
-                    mobileParty.ChangePartyLeader(newLeader.CharacterObject);
-#elif e170 || e171
-                    mobileParty.ChangePartyLeader(newLeader);
-#else
-#error NOT SET
-#endif
+                    selectedClan.SetLeader(newLeader);
+                    if (GetCampaignEventDispatcher is not null)
+                        GetCampaignEventDispatcher(Campaign.Current).OnClanLeaderChanged(currentLeader, newLeader);
                 }
             }
-            leader.Clan.SetLeader(newLeader);
-            if (GetCampaignEventDispatcher is not null)
-                GetCampaignEventDispatcher(Campaign.Current).OnClanLeaderChanged(leader, newLeader);
+
+            MessageHelper.DisplayMessage(new TextObject("{=nqwp2XsNFW}Player Switched To {LEADER}").SetTextVariable("LEADER", newLeader.Name), Colors.Green);
         }
     }
 }

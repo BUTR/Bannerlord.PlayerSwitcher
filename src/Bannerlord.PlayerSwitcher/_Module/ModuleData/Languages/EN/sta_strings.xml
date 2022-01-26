@@ -13,6 +13,10 @@
     <string id="G0pTcJD6cG" text="{LEADER} is besieging {SETTLEMENT}. Switch to {LEADER}?" />
     <string id="OHKrGhoLp3" text="{SETTLEMENT} is under siege by {ATTACKERS}. Switch to {LEADER}?" />
     <string id="FxvQbHocXL" text="Switch back to {LAST_HERO}?" />
+    <string id="qKus0BE3xi" text="Attack" />
+    <string id="pai08I9LP2" text="Defend" />
+    <string id="1Gfj29qE2R" text="Battle Ended" />
+    <string id="lbx4kAzf0A" text="Siege Ended" />
 
     <string id="Ooz4Z5vMZR" text="Switch Player Hero" />
     <string id="CGoVgCVK7t" text="Switches the currently played hero." />
