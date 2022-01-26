@@ -19,10 +19,8 @@ namespace Bannerlord.PlayerSwitcher
 
         protected override void OnSubModuleLoad()
         {
-            ClanPatch.Enable(_harmony);
             ChangeClanLeaderActionPatch.Enable(_harmony);
             HeirSelectionCampaignBehaviorPatch.Enable(_harmony);
-            SPInventoryVMPatch.Enable(_harmony);
 
             base.OnSubModuleLoad();
         }
