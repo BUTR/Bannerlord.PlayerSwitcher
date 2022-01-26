@@ -54,13 +54,21 @@ namespace Bannerlord.PlayerSwitcher.CampaignBehaviors
                     .SetTextVariable("LEADER", hero.Name)
                     .SetTextVariable("DEFENDERS", party2.Name);
 
-                InformationManager.ShowInquiry(new InquiryData("Attack", text.ToString(), true, true, "{=aeouhelq}Yes", "{=8OkPHu4f}No",
-                    () =>
-                    {
-                        lastHero = Hero.MainHero;
-                        clanEvent = mapEvent;
-                        _switchManager.SwitchPlayer(hero.Clan, hero);
-                    }, null), true);
+                InformationManager.ShowInquiry(new InquiryData(
+                        new TextObject("{=qKus0BE3xi}Attack").ToString(),
+                        text.ToString(),
+                        true,
+                        true,
+                        new TextObject("{=aeouhelq}Yes").ToString(),
+                        new TextObject("{=8OkPHu4f}No").ToString(),
+                        () =>
+                        {
+                            lastHero = Hero.MainHero;
+                            clanEvent = mapEvent;
+                            _switchManager.SwitchPlayer(hero.Clan, hero);
+                        },
+                        null),
+                    true);
                 return;
             }
 
@@ -71,13 +79,21 @@ namespace Bannerlord.PlayerSwitcher.CampaignBehaviors
                     .SetTextVariable("LEADER", hero.Name)
                     .SetTextVariable("ATTACKERS", party1.Name);
 
-                InformationManager.ShowInquiry(new InquiryData("Defend", text.ToString(), true, true, "{=aeouhelq}Yes", "{=8OkPHu4f}No",
-                    () =>
-                    {
-                        lastHero = Hero.MainHero;
-                        clanEvent = mapEvent;
-                        _switchManager.SwitchPlayer(hero.Clan, hero);
-                    }, null), true);
+                InformationManager.ShowInquiry(new InquiryData(
+                        new TextObject("{=pai08I9LP2}Defend").ToString(),
+                        text.ToString(),
+                        true,
+                        true,
+                        new TextObject("{=aeouhelq}Yes").ToString(),
+                        new TextObject("{=8OkPHu4f}No").ToString(),
+                        () =>
+                        {
+                            lastHero = Hero.MainHero;
+                            clanEvent = mapEvent;
+                            _switchManager.SwitchPlayer(hero.Clan, hero);
+                        },
+                        null),
+                    true);
                 return;
             }
         }
@@ -90,16 +106,23 @@ namespace Bannerlord.PlayerSwitcher.CampaignBehaviors
             var text = new TextObject("{=DMtEOm8C2W}Switch back to {LAST_HERO}?")
                 .SetTextVariable("LAST_HERO", lastHero.Name);
 
-            InformationManager.ShowInquiry(new InquiryData("Battle Ended", text.ToString(), true, true, "{=aeouhelq}Yes", "{=8OkPHu4f}No",
-                () =>
-                {
-                    _switchManager.SwitchPlayer(lastHero.Clan, lastHero);
-                    lastHero = null;
-                },
-                () =>
-                {
-                    lastHero = null;
-                }), true);
+            InformationManager.ShowInquiry(new InquiryData(
+                    new TextObject("{=1Gfj29qE2R}Battle Ended").ToString(),
+                    text.ToString(),
+                    true,
+                    true,
+                    new TextObject("{=aeouhelq}Yes").ToString(),
+                    new TextObject("{=8OkPHu4f}No").ToString(),
+                    () =>
+                    {
+                        _switchManager.SwitchPlayer(lastHero.Clan, lastHero);
+                        lastHero = null;
+                    },
+                    () =>
+                    {
+                        lastHero = null;
+                    }),
+                true);
         }
 
         private void OnSiegeEventStarted(SiegeEvent siegeEvent)
@@ -117,13 +140,21 @@ namespace Bannerlord.PlayerSwitcher.CampaignBehaviors
                         .SetTextVariable("LEADER", leader.Name)
                         .SetTextVariable("SETTLEMENT", besiegedSettlement.Name);
 
-                    InformationManager.ShowInquiry(new InquiryData("Attack", text.ToString(), true, true, "{=aeouhelq}Yes", "{=8OkPHu4f}No",
-                        () =>
-                        {
-                            lastHero = Hero.MainHero;
-                            clanSiegeEvent = siegeEvent;
-                            _switchManager.SwitchPlayer(leader.Clan, leader);
-                        }, null), true);
+                    InformationManager.ShowInquiry(new InquiryData(
+                            new TextObject("{=qKus0BE3xi}Attack").ToString(),
+                            text.ToString(),
+                            true,
+                            true,
+                            new TextObject("{=aeouhelq}Yes").ToString(),
+                            new TextObject("{=8OkPHu4f}No").ToString(),
+                            () =>
+                            {
+                                lastHero = Hero.MainHero;
+                                clanSiegeEvent = siegeEvent;
+                                _switchManager.SwitchPlayer(leader.Clan, leader);
+                            },
+                            null),
+                        true);
                     return;
                 }
             }
@@ -138,13 +169,21 @@ namespace Bannerlord.PlayerSwitcher.CampaignBehaviors
                     text.SetTextVariable("SETTLEMENT", besiegedSettlement.Name);
                     text.SetTextVariable("ATTACKERS", attackerParty.Name);
 
-                    InformationManager.ShowInquiry(new InquiryData("Defend", text.ToString(), true, true, "{=aeouhelq}Yes", "{=8OkPHu4f}No",
-                        () =>
-                        {
-                            lastHero = Hero.MainHero;
-                            clanSiegeEvent = siegeEvent;
-                            _switchManager.SwitchPlayer(governor.Clan, governor);
-                        }, null), true);
+                    InformationManager.ShowInquiry(new InquiryData(
+                            new TextObject("{=pai08I9LP2}Defend").ToString(),
+                            text.ToString(),
+                            true,
+                            true,
+                            new TextObject("{=aeouhelq}Yes").ToString(),
+                            new TextObject("{=8OkPHu4f}No").ToString(),
+                            () =>
+                            {
+                                lastHero = Hero.MainHero;
+                                clanSiegeEvent = siegeEvent;
+                                _switchManager.SwitchPlayer(governor.Clan, governor);
+                            },
+                            null),
+                        true);
                     return;
                 }
             }
@@ -158,16 +197,23 @@ namespace Bannerlord.PlayerSwitcher.CampaignBehaviors
             var text = new TextObject("{=FxvQbHocXL}Switch back to {LAST_HERO}?")
                 .SetTextVariable("LAST_HERO", lastHero.Name);
 
-            InformationManager.ShowInquiry(new InquiryData("Siege Ended", text.ToString(), true, true, "{=aeouhelq}Yes", "{=8OkPHu4f}No",
-                () =>
-                {
-                    _switchManager.SwitchPlayer(lastHero.Clan, lastHero);
-                    lastHero = null;
-                },
-                () =>
-                {
-                    lastHero = null;
-                }), true);
+            InformationManager.ShowInquiry(new InquiryData(
+                    new TextObject("{=lbx4kAzf0A}Siege Ended").ToString(),
+                    text.ToString(),
+                    true,
+                    true,
+                    new TextObject("{=aeouhelq}Yes").ToString(),
+                    new TextObject("{=8OkPHu4f}No").ToString(),
+                    () =>
+                    {
+                        _switchManager.SwitchPlayer(lastHero.Clan, lastHero);
+                        lastHero = null;
+                    },
+                    () =>
+                    {
+                        lastHero = null;
+                    }),
+                true);
         }
 
         public override void SyncData(IDataStore dataStore)
