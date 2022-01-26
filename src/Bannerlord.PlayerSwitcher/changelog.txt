@@ -1,4 +1,10 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.8.5
+Game Versions: e1.6.2,e1.6.3,e1.6.4,e1.6.5,e1.7.0,e1.7.1
+* Switching now properly sets Player Clan, should fix Cheat Mode issues
+* Added Danger message to the Cheat Mode
+* Better patching
+---------------------------------------------------------------------------------------------------
 Version: 1.8.4
 Game Versions: e1.6.2,e1.6.3,e1.6.4,e1.6.5,e1.7.0,e1.7.1
 * Fixed translation
