@@ -20,17 +20,5 @@ namespace Bannerlord.PlayerSwitcher
         {
             InformationManager.DisplayMessage(new InformationMessage(textObj.ToString(), color));
         }
-
-#if DEBUG
-        internal static void DisplayDebugMessage(TextObject textObj)
-        {
-            InformationManager.DisplayMessage(new InformationMessage($"[PlayerSwitcher DEBUG] {textObj}", Colors.Cyan));
-        }
-
-        internal static void DisplayDebugMessage(TextObject textObj, Color color)
-        {
-            InformationManager.DisplayMessage(new InformationMessage($"[PlayerSwitcher DEBUG] {textObj}", color));
-        }
-#endif
     }
 }
