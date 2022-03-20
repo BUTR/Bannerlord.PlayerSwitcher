@@ -1,4 +1,4 @@
-﻿<Project Sdk="Bannerlord.BUTRModule.Sdk/1.0.1.67">
+﻿<Project Sdk="Bannerlord.BUTRModule.Sdk/1.0.1.68">
 
   <PropertyGroup>
     <!-- Module Id -->
@@ -6,7 +6,7 @@
     <!-- Module Name -->
     <ModuleName>BUTR's Player Switcher</ModuleName>
     <!-- Module Version -->
-    <Version>1.8.5</Version>
+    <Version>1.9.0</Version>
     <!-- Module manually override GameVersion -->
     <!-- <OverrideGameVersion>e1.6.2</OverrideGameVersion> -->
   </PropertyGroup>
@@ -18,21 +18,21 @@
   <!-- Development Variables -->
   <PropertyGroup>
     <!-- Harmony Version -->
-    <HarmonyVersion>2.1.1</HarmonyVersion>
+    <HarmonyVersion>2.2.1</HarmonyVersion>
     <!-- UIExtenderEx Version -->
     <UIExtenderExVersion>2.1.8</UIExtenderExVersion>
     <!-- ButterLib Version -->
-    <ButterLibVersion>1.0.31</ButterLibVersion>
+    <ButterLibVersion>2.1.1</ButterLibVersion>
     <!-- MCM Version -->
-    <MCMVersion>4.3.16</MCMVersion>
+    <MCMVersion>4.5.0</MCMVersion>
     <!-- BUTRShared Version -->
-    <BUTRSharedVersion>2.0.0.71</BUTRSharedVersion>
+    <BUTRSharedVersion>2.0.0.78</BUTRSharedVersion>
     <!-- ModuleManager Version -->
-    <BUTRModuleManagerVersion>2.0.80</BUTRModuleManagerVersion>
+    <BUTRModuleManagerVersion>3.0.94</BUTRModuleManagerVersion>
     <!-- ModuleLoader Version -->
-    <BUTRModuleLoaderVersion>1.0.1.23</BUTRModuleLoaderVersion>
+    <BUTRModuleLoaderVersion>1.0.1.24</BUTRModuleLoaderVersion>
     <!-- Harmony Extensions Version -->
-    <HarmonyExtensionsVersion>2.0.0.51</HarmonyExtensionsVersion>
+    <HarmonyExtensionsVersion>2.0.0.55</HarmonyExtensionsVersion>
   </PropertyGroup>
 
   <PropertyGroup>
