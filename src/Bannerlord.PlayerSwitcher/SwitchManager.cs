@@ -63,7 +63,11 @@ namespace Bannerlord.PlayerSwitcher
                 }
             }
 
+#if e172
             InformationManager.ShowMultiSelectionInquiry(
+#elif e180
+            MBInformationManager.ShowMultiSelectionInquiry(
+#endif
                 new MultiSelectionInquiryData(
                     new TextObject("{=VfJiuott1b}Player Switcher").ToString(),
                     new TextObject("{=3H7NmYfKn6}Select a clan to choose from their heroes.").ToString(),
@@ -121,7 +125,11 @@ namespace Bannerlord.PlayerSwitcher
                 return;
             }
 
+#if e172
             InformationManager.ShowMultiSelectionInquiry(
+#elif e180
+            MBInformationManager.ShowMultiSelectionInquiry(
+#endif
                 new MultiSelectionInquiryData(
                     new TextObject("{=VfJiuott1b}Player Switcher").ToString(),
                     new TextObject("{=yP5F99s3ti}Select a hero to play as.").ToString(),
@@ -182,7 +190,11 @@ namespace Bannerlord.PlayerSwitcher
                 return;
             }
 
+#if e172
             InformationManager.ShowMultiSelectionInquiry(
+#elif e180
+            MBInformationManager.ShowMultiSelectionInquiry(
+#endif
                 new MultiSelectionInquiryData(
                     new TextObject("{=VfJiuott1b}Player Switcher").ToString(),
                     new TextObject("{=yP5F99s3ti}Select a hero to play as.").ToString(),
