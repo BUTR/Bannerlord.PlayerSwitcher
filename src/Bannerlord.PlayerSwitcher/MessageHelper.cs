@@ -8,7 +8,11 @@ namespace Bannerlord.PlayerSwitcher
     {
         internal static void DisplayNotification(TextObject textObj, BasicCharacterObject character)
         {
+#if e172
             InformationManager.AddQuickInformation(textObj, announcerCharacter: character);
+#elif e180
+            MBInformationManager.AddQuickInformation(textObj, announcerCharacter: character);
+#endif
         }
 
         internal static void DisplayMessage(TextObject textObj)
