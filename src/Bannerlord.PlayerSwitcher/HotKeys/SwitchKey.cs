@@ -46,7 +46,7 @@ namespace Bannerlord.PlayerSwitcher.HotKeys
 
                 if (Hero.MainHero.CurrentSettlement is not null)
                 {
-                    MessageHelper.DisplayMessage(new TextObject("{=WQQBeAQcyc}Leave your current settlement before switching players so the game can close the menu and unload the interface at the top of the screen that shows all the notables."));
+                    MessageUtils.DisplayMessage(new TextObject("{=WQQBeAQcyc}Leave your current settlement before switching players so the game can close the menu and unload the interface at the top of the screen that shows all the notables."));
                     return;
                 }
 
