@@ -121,7 +121,7 @@ namespace Bannerlord.PlayerSwitcher
             var inquiries = ClanInquiries(Clan.PlayerClan).ToList();
             if (inquiries.Count == 0)
             {
-                MessageHelper.DisplayMessage(new TextObject("{=aqTKT8UyBg}You don't have anyone to switch to!"), Colors.Green);
+                MessageUtils.DisplayMessage(new TextObject("{=aqTKT8UyBg}You don't have anyone to switch to!"), Colors.Green);
                 return;
             }
 
@@ -186,7 +186,7 @@ namespace Bannerlord.PlayerSwitcher
             var inquiries = ClanInquiries(clan).ToList();
             if (inquiries.Count == 0)
             {
-                MessageHelper.DisplayMessage(new TextObject("{=aqTKT8UyBg}You don't have anyone to switch to!"), Colors.Green);
+                MessageUtils.DisplayMessage(new TextObject("{=aqTKT8UyBg}You don't have anyone to switch to!"), Colors.Green);
                 return;
             }
 
@@ -257,7 +257,7 @@ namespace Bannerlord.PlayerSwitcher
                 }
             }
 
-            MessageHelper.DisplayMessage(new TextObject("{=nqwp2XsNFW}Player Switched To {LEADER}").SetTextVariable("LEADER", newLeader.Name), Colors.Green);
+            MessageUtils.DisplayMessage(new TextObject("{=nqwp2XsNFW}Player Switched To {LEADER}").SetTextVariable("LEADER", newLeader.Name), Colors.Green);
         }
     }
 }

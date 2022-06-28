@@ -4,7 +4,7 @@ using TaleWorlds.Localization;
 
 namespace Bannerlord.PlayerSwitcher
 {
-    internal static class MessageHelper
+    internal static class MessageUtils
     {
         internal static void DisplayNotification(TextObject textObj, BasicCharacterObject character)
         {

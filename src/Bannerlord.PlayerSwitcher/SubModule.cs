@@ -1,7 +1,9 @@
-﻿using Bannerlord.ButterLib.HotKeys;
+﻿using Bannerlord.BUTR.Shared.Helpers;
+using Bannerlord.ButterLib.HotKeys;
 using Bannerlord.PlayerSwitcher.CampaignBehaviors;
 using Bannerlord.PlayerSwitcher.HotKeys;
 using Bannerlord.PlayerSwitcher.Patches;
+using Bannerlord.PlayerSwitcher.Utils;
 
 using HarmonyLib;
 
@@ -23,6 +25,14 @@ namespace Bannerlord.PlayerSwitcher
             HeirSelectionCampaignBehaviorPatch.Enable(_harmony);
 
             base.OnSubModuleLoad();
+            
+            if (ApplicationVersionHelper.GameVersion() is { } gameVersion)
+            {
+                if (gameVersion.Major is 1 && gameVersion.Minor is 8 && gameVersion.Revision is >= 0)
+                {
+                    LocalizedTextManagerUtils.LoadLanguageData();
+                }
+            }
         }
 
         protected override void OnBeforeInitialModuleScreenSetAsRoot()
