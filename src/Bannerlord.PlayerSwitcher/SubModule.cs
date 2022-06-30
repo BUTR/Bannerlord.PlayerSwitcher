@@ -25,7 +25,7 @@ namespace Bannerlord.PlayerSwitcher
             HeirSelectionCampaignBehaviorPatch.Enable(_harmony);
 
             base.OnSubModuleLoad();
-            
+
             if (ApplicationVersionHelper.GameVersion() is { } gameVersion)
             {
                 if (gameVersion.Major is 1 && gameVersion.Minor is 8 && gameVersion.Revision is >= 0)
