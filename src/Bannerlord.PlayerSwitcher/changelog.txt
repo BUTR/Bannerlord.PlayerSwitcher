@@ -1,4 +1,8 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.9.5
+Game Versions: e1.7.2,e1.8.0
+* Third workaround for the language issue
+---------------------------------------------------------------------------------------------------
 Version: 1.9.4
 Game Versions: e1.7.2,e1.8.0
 * Second workaround for the language issue
