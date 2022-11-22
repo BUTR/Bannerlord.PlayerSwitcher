@@ -1,4 +1,4 @@
-﻿<Project Sdk="Bannerlord.BUTRModule.Sdk/1.0.1.68">
+﻿<Project Sdk="Bannerlord.BUTRModule.Sdk/1.0.1.85">
 
   <PropertyGroup>
     <!-- Module Id -->
@@ -18,28 +18,28 @@
   <!-- Development Variables -->
   <PropertyGroup>
     <!-- Harmony Version -->
-    <HarmonyVersion>2.2.1</HarmonyVersion>
+    <HarmonyVersion>2.2.2</HarmonyVersion>
     <!-- UIExtenderEx Version -->
-    <UIExtenderExVersion>2.1.8</UIExtenderExVersion>
+    <UIExtenderExVersion>2.3.1</UIExtenderExVersion>
     <!-- ButterLib Version -->
-    <ButterLibVersion>2.1.1</ButterLibVersion>
+    <ButterLibVersion>2.5.1</ButterLibVersion>
     <!-- MCM Version -->
-    <MCMVersion>4.5.0</MCMVersion>
+    <MCMVersion>5.3.2</MCMVersion>
     <!-- BUTRShared Version -->
-    <BUTRSharedVersion>2.0.0.78</BUTRSharedVersion>
+    <BUTRSharedVersion>3.0.0.122</BUTRSharedVersion>
     <!-- ModuleManager Version -->
-    <BUTRModuleManagerVersion>3.0.97</BUTRModuleManagerVersion>
+    <BUTRModuleManagerVersion>4.0.150</BUTRModuleManagerVersion>
     <!-- ModuleLoader Version -->
-    <BUTRModuleLoaderVersion>1.0.1.36</BUTRModuleLoaderVersion>
+    <BUTRModuleLoaderVersion>1.0.1.43</BUTRModuleLoaderVersion>
     <!-- Harmony Extensions Version -->
-    <HarmonyExtensionsVersion>3.1.0.61</HarmonyExtensionsVersion>
+    <HarmonyExtensionsVersion>3.1.0.68</HarmonyExtensionsVersion>
   </PropertyGroup>
 
   <PropertyGroup>
     <DisableReferenceAssemblies>true</DisableReferenceAssemblies>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Bannerlord.ReferenceAssemblies.Core.EarlyAccess" Version="$(GameVersion).*" IncludeAssets="compile" />
+    <PackageReference Include="Bannerlord.ReferenceAssemblies.Core" Version="$(GameVersion).*-*" IncludeAssets="compile" />
   </ItemGroup>
 
 </Project>
