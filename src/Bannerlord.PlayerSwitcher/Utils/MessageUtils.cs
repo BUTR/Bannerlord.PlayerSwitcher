@@ -2,7 +2,7 @@
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 
-namespace Bannerlord.PlayerSwitcher
+namespace Bannerlord.PlayerSwitcher.Utils
 {
     internal static class MessageUtils
     {

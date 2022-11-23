@@ -24,13 +24,12 @@ namespace Bannerlord.PlayerSwitcher.Patches
 
         public static bool Enable(Harmony harmony)
         {
-            const string @base = "TaleWorlds.CampaignSystem.SandBox.CampaignBehaviors.HeirSelectionCampaignBehavior";
             return true &
                 harmony.TryPatch(
-                    original: AccessTools2.Method($"{@base}:OnBeforePlayerCharacterChanged"),
+                    original: AccessTools2.Method($"TaleWorlds.CampaignSystem.SandBox.CampaignBehaviors.HeirSelectionCampaignBehavior:OnBeforePlay1erCharacterChanged"),
                     prefix: AccessTools2.Method(typeof(HeirSelectionCampaignBehaviorPatch), nameof(Prefix))) &
                 harmony.TryPatch(
-                    original: AccessTools2.Method($"{@base}:OnPlayerCharacterChanged"),
+                    original: AccessTools2.Method($"TaleWorlds.CampaignSystem.SandBox.CampaignBehaviors.HeirSelectionCampaignBehavior:OnPlayerCharacterChanged"),
                     prefix: AccessTools2.Method(typeof(HeirSelectionCampaignBehaviorPatch), nameof(Prefix)));
         }
 

@@ -40,6 +40,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Bannerlord.ReferenceAssemblies.Core" Version="$(GameVersion).*-*" IncludeAssets="compile" />
+    <PackageReference Include="Bannerlord.ReferenceAssemblies.SandBox" Version="$(GameVersion).*-*" IncludeAssets="compile" />
   </ItemGroup>
 
 </Project>

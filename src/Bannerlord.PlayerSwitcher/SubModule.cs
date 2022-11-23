@@ -2,12 +2,16 @@
 using Bannerlord.PlayerSwitcher.CampaignBehaviors;
 using Bannerlord.PlayerSwitcher.HotKeys;
 using Bannerlord.PlayerSwitcher.Patches;
+using Bannerlord.PlayerSwitcher.ScreenLayers;
 
 using HarmonyLib;
+
+using SandBox.View.Map;
 
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
+using TaleWorlds.ScreenSystem;
 
 namespace Bannerlord.PlayerSwitcher
 {
@@ -45,7 +49,21 @@ namespace Bannerlord.PlayerSwitcher
         {
             if (game.GameType is Campaign && gameStarterObject is CampaignGameStarter cgs)
             {
-                cgs.AddBehavior(new StorageCampaignBehavior());
+                var storageCampaignBehavior = new StorageCampaignBehavior();
+                cgs.AddBehavior(storageCampaignBehavior);
+
+                // This way we can only add once the screen.
+                // StoryModeGauntletUISubModule uses a similar technique, but with a global variable
+                // We play it better
+                void OnPushScreen(ScreenBase screen)
+                {
+                    if (screen is MapScreen mapScreen)
+                    {
+                        mapScreen.AddLayer(new SwitchManagerMapScreenLayer(storageCampaignBehavior));
+                        ScreenManager.OnPushScreen -= OnPushScreen;
+                    }
+                }
+                ScreenManager.OnPushScreen += OnPushScreen;
             }
 
             base.OnGameStart(game, gameStarterObject);
