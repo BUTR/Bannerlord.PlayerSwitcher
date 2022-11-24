@@ -4,11 +4,10 @@ using HarmonyLib.BUTR.Extensions;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.Core;
-using TaleWorlds.Localization;
 
 namespace Bannerlord.PlayerSwitcher.Patches
 {
-    public class ChangeClanLeaderActionPatch
+    internal class ChangeClanLeaderActionPatch
     {
         public static bool Enable(Harmony harmony)
         {
@@ -23,7 +22,7 @@ namespace Bannerlord.PlayerSwitcher.Patches
             if (newLeader is not null && clan.StringId == "neutral")
             {
                 clan = new Clan();
-                var name = new TextObject("{=CjU71TGHWq}Posse of {LEADER}").SetTextVariable("LEADER", newLeader.Name);
+                var name = Strings.PosseOfText.SetTextVariable("LEADER", newLeader.Name);
                 clan.InitializeClan(name, name, newLeader.Culture, Banner.CreateRandomClanBanner());
             }
 

@@ -25,6 +25,8 @@ namespace Bannerlord.PlayerSwitcher
         {
             ChangeClanLeaderActionPatch.Enable(_harmony);
             HeirSelectionCampaignBehaviorPatch.Enable(_harmony);
+            LordPartyComponentPatch.Enable(_harmony);
+            AddRemoveCompanionActionPatch.Enable(_harmony);
 
             base.OnSubModuleLoad();
         }

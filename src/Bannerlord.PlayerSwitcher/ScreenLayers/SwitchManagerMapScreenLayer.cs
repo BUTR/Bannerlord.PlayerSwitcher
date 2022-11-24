@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.CampaignSystem.GameState;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
@@ -40,9 +41,15 @@ namespace Bannerlord.PlayerSwitcher.ScreenLayers
                 if (Campaign.Current is null) return;
                 if (Mission.Current is not null) return;
 
+                if (Game.Current.GameStateManager.LastOrDefault<MapState>() is { AtMenu: true })
+                {
+                    MessageUtils.DisplayMessage(Strings.ExitMenu);
+                    return;
+                }
+
                 if (Hero.MainHero.CurrentSettlement is not null)
                 {
-                    MessageUtils.DisplayMessage(new TextObject("{=WQQBeAQcyc}Leave your current settlement before switching players so the game can close the menu and unload the interface at the top of the screen that shows all the notables."));
+                    MessageUtils.DisplayMessage(Strings.LeaveSettlement);
                     return;
                 }
 
@@ -89,8 +96,8 @@ namespace Bannerlord.PlayerSwitcher.ScreenLayers
 
             MBInformationManager.ShowMultiSelectionInquiry(
                 new MultiSelectionInquiryData(
-                    new TextObject("{=VfJiuott1b}Player Switcher").ToString(),
-                    new TextObject("{=3H7NmYfKn6}Select a clan to choose from their heroes.").ToString(),
+                    Strings.PlayerSwitcher.ToString(),
+                    Strings.SelectAClanToPlay.ToString(),
                     ClanInquiries().ToList(),
                     true,
                     1,
@@ -118,14 +125,14 @@ namespace Bannerlord.PlayerSwitcher.ScreenLayers
             var inquiries = ClanInquiries(Clan.PlayerClan).ToList();
             if (inquiries.Count == 0)
             {
-                MessageUtils.DisplayMessage(new TextObject("{=aqTKT8UyBg}You don't have anyone to switch to!"), Colors.Green);
+                MessageUtils.DisplayMessage(Strings.NoneToSwitch, Colors.Green);
                 return;
             }
 
             MBInformationManager.ShowMultiSelectionInquiry(
                 new MultiSelectionInquiryData(
-                    new TextObject("{=VfJiuott1b}Player Switcher").ToString(),
-                    new TextObject("{=yP5F99s3ti}Select a hero to play as.").ToString(),
+                    Strings.PlayerSwitcher.ToString(),
+                    Strings.SelectAHeroToPlay.ToString(),
                     inquiries,
                     true,
                     1,
@@ -156,14 +163,14 @@ namespace Bannerlord.PlayerSwitcher.ScreenLayers
             var inquiries = ClanInquiries(clan).ToList();
             if (inquiries.Count == 0)
             {
-                MessageUtils.DisplayMessage(new TextObject("{=aqTKT8UyBg}You don't have anyone to switch to!"), Colors.Green);
+                MessageUtils.DisplayMessage(Strings.NoneToSwitch, Colors.Green);
                 return;
             }
 
             MBInformationManager.ShowMultiSelectionInquiry(
                 new MultiSelectionInquiryData(
-                    new TextObject("{=VfJiuott1b}Player Switcher").ToString(),
-                    new TextObject("{=yP5F99s3ti}Select a hero to play as.").ToString(),
+                    Strings.PlayerSwitcher.ToString(),
+                    Strings.SelectAHeroToPlay.ToString(),
                     inquiries,
                     true,
                     1,
@@ -178,7 +185,7 @@ namespace Bannerlord.PlayerSwitcher.ScreenLayers
         {
             if (element.First().Identifier is not Hero selectedHeir) return;
 
-            _storageCampaignBehavior.SwitchPlayer(selectedHeir.Clan, selectedHeir);
+            _storageCampaignBehavior.SwitchPlayer(selectedHeir);
         }
 
         private static IEnumerable<Hero> GetHeroes(Clan clan)
