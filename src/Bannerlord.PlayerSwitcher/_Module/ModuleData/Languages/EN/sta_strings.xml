@@ -10,7 +10,6 @@
     <string id="DMtEOm8C2W" text="Switch back to {LAST_HERO}?" />
     <string id="G0pTcJD6cG" text="{LEADER} is besieging {SETTLEMENT}. Switch to {LEADER}?" />
     <string id="OHKrGhoLp3" text="{SETTLEMENT} is under siege by {ATTACKERS}. Switch to {LEADER}?" />
-    <string id="FxvQbHocXL" text="Switch back to {LAST_HERO}?" />
     <string id="qKus0BE3xi" text="Attack" />
     <string id="pai08I9LP2" text="Defend" />
     <string id="1Gfj29qE2R" text="Battle Ended" />
@@ -19,7 +18,8 @@
     <string id="Ooz4Z5vMZR" text="Switch Player Hero" />
     <string id="CGoVgCVK7t" text="Switches the currently played hero." />
     <string id="WQQBeAQcyc" text="Leave your current settlement before switching players so the game can close the menu and unload the interface at the top of the screen that shows all the notables." />
- 
+    <string id="JHnsYgSgtS" text="Close the menu open before switching." />
+
     <string id="CjU71TGHWq" text="Posse of {LEADER}" />
 
     <string id="nqwp2XsNFW" text="Player Switched To {LEADER}" />
