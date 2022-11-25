@@ -1,15 +1,11 @@
 ﻿using Bannerlord.PlayerSwitcher.Patches;
 using Bannerlord.PlayerSwitcher.Utils;
 
-using HarmonyLib;
 using HarmonyLib.BUTR.Extensions;
 
 using Helpers;
 
 using MCM;
-
-using System;
-using System.Collections.Generic;
 
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Actions;
@@ -23,6 +19,12 @@ namespace Bannerlord.PlayerSwitcher.CampaignBehaviors
 {
     public class StorageCampaignBehavior : CampaignBehaviorBase
     {
+        private record SwitchEvent(Hero LastHero, MapEvent? MapEvent, SiegeEvent? SiegeEvent)
+        {
+            public static SwitchEvent CreateMapEvent(Hero lastHero, MapEvent? mapEvent) => new(lastHero, mapEvent, null);
+            public static SwitchEvent CreateSiegeEvent(Hero lastHero, SiegeEvent siegeEvent) => new(lastHero, null, siegeEvent);
+        }
+
         private delegate void OnCompanionAddedDelegate(Clan instance, Hero companion);
         private static readonly OnCompanionAddedDelegate? OnCompanionAdded =
             AccessTools2.GetDelegate<OnCompanionAddedDelegate>(typeof(Clan), "OnCompanionAdded");
@@ -45,21 +47,9 @@ namespace Bannerlord.PlayerSwitcher.CampaignBehaviors
         private Campaign Campaign => Campaign.Current;
         private Settings? Settings => GetCampaignBehavior<SettingsProviderCampaignBehavior>() is { } behavior ? behavior.Get<Settings>() : null;
 
-        private Clan _selectedClan = default!;
+        private SwitchEvent? _switchEvent;
 
-        private Hero? lastHero;
-        private MapEvent? clanEvent;
-        private SiegeEvent? clanSiegeEvent;
-
-
-        public override void SyncData(IDataStore dataStore)
-        {
-            try
-            {
-                dataStore.SyncData("Clan", ref _selectedClan);
-            }
-            catch (Exception) { /* ignored */ }
-        }
+        public override void SyncData(IDataStore dataStore) { }
 
         public override void RegisterEvents()
         {
@@ -72,22 +62,22 @@ namespace Bannerlord.PlayerSwitcher.CampaignBehaviors
 
         private void OnTick(float dt)
         {
+            // Still needed?
             if (MainParty.LeaderHero is null && !MainHero.IsPrisoner)
             {
                 MainParty.MemberRoster.AddToCounts(MainHero.CharacterObject, 0);
             }
         }
 
-        private void OnMapEventStarted(MapEvent mapEvent, PartyBase party1, PartyBase party2)
+        private void OnMapEventStarted(MapEvent mapEvent, PartyBase attackerParty, PartyBase defenderParty)
         {
             if (Settings is { SwitchMessages: false }) return;
 
-            var hero = party1.LeaderHero;
-            if (hero is { } && hero != MainHero && hero.Clan == PlayerClan)
+            if (attackerParty.LeaderHero is { } attackerHero && attackerHero != MainHero && attackerHero.Clan == PlayerClan)
             {
                 var text = Strings.AttackingSwitchTo
-                    .SetTextVariable("LEADER", hero.Name)
-                    .SetTextVariable("DEFENDERS", party2.Name);
+                    .SetTextVariable("LEADER", attackerHero.Name)
+                    .SetTextVariable("DEFENDERS", defenderParty.Name);
 
                 InformationManager.ShowInquiry(new InquiryData(
                         Strings.Attack.ToString(),
@@ -98,21 +88,18 @@ namespace Bannerlord.PlayerSwitcher.CampaignBehaviors
                         new TextObject("{=8OkPHu4f}No").ToString(),
                         () =>
                         {
-                            lastHero = MainHero;
-                            clanEvent = mapEvent;
-                            SwitchPlayer(hero);
+                            _switchEvent = SwitchEvent.CreateMapEvent(MainHero, mapEvent);
+                            SwitchPlayer(attackerHero);
                         },
                         null),
                     true);
-                return;
             }
 
-            hero = party2.LeaderHero;
-            if (hero is { } && hero != MainHero && hero.Clan == PlayerClan)
+            if (defenderParty.LeaderHero is { } defenderHero && defenderHero != MainHero && defenderHero.Clan == PlayerClan && defenderHero.PartyBelongedTo is { IsCaravan: false })
             {
                 var text = Strings.AttackedBySwitchTo
-                    .SetTextVariable("LEADER", hero.Name)
-                    .SetTextVariable("ATTACKERS", party1.Name);
+                    .SetTextVariable("LEADER", defenderHero.Name)
+                    .SetTextVariable("ATTACKERS", attackerParty.Name);
 
                 InformationManager.ShowInquiry(new InquiryData(
                         Strings.Defend.ToString(),
@@ -123,21 +110,21 @@ namespace Bannerlord.PlayerSwitcher.CampaignBehaviors
                         new TextObject("{=8OkPHu4f}No").ToString(),
                         () =>
                         {
-                            lastHero = MainHero;
-                            clanEvent = mapEvent;
-                            SwitchPlayer(hero);
+                            _switchEvent = SwitchEvent.CreateMapEvent(MainHero, mapEvent);
+                            SwitchPlayer(defenderHero);
                         },
                         null),
                     true);
-                //return;
             }
         }
 
         private void OnMapEventEnded(MapEvent mapEvent)
         {
-            if (mapEvent != clanEvent || lastHero is null) return;
+            if (_switchEvent is not { } || _switchEvent.MapEvent != mapEvent) return;
 
-            clanEvent = null;
+            var lastHero = _switchEvent.LastHero;
+            _switchEvent = null;
+
             var text = Strings.SwitchBack
                 .SetTextVariable("LAST_HERO", lastHero.Name);
 
@@ -148,15 +135,8 @@ namespace Bannerlord.PlayerSwitcher.CampaignBehaviors
                     true,
                     new TextObject("{=aeouhelq}Yes").ToString(),
                     new TextObject("{=8OkPHu4f}No").ToString(),
-                    () =>
-                    {
-                        SwitchPlayer(lastHero);
-                        lastHero = null;
-                    },
-                    () =>
-                    {
-                        lastHero = null;
-                    }),
+                    () => SwitchPlayer(lastHero),
+                    null),
                 true);
         }
 
@@ -166,68 +146,60 @@ namespace Bannerlord.PlayerSwitcher.CampaignBehaviors
 
             var attackerParty = siegeEvent.BesiegerCamp.BesiegerParty;
             var besiegedSettlement = siegeEvent.BesiegedSettlement;
-            if (attackerParty != MainParty)
-            {
-                var leader = attackerParty.LeaderHero;
-                if (leader.Clan == PlayerClan)
-                {
-                    var text = Strings.BesiegingSwitchTo
-                        .SetTextVariable("LEADER", leader.Name)
-                        .SetTextVariable("SETTLEMENT", besiegedSettlement.Name);
 
-                    InformationManager.ShowInquiry(new InquiryData(
-                            Strings.Attack.ToString(),
-                            text.ToString(),
-                            true,
-                            true,
-                            new TextObject("{=aeouhelq}Yes").ToString(),
-                            new TextObject("{=8OkPHu4f}No").ToString(),
-                            () =>
-                            {
-                                lastHero = MainHero;
-                                clanSiegeEvent = siegeEvent;
-                                SwitchPlayer(leader);
-                            },
-                            null),
-                        true);
-                    return;
-                }
+            if (attackerParty != MainParty && attackerParty.LeaderHero is { } leader && leader.Clan == PlayerClan)
+            {
+                var text = Strings.BesiegingSwitchTo
+                    .SetTextVariable("LEADER", leader.Name)
+                    .SetTextVariable("SETTLEMENT", besiegedSettlement.Name);
+
+                InformationManager.ShowInquiry(new InquiryData(
+                        Strings.Attack.ToString(),
+                        text.ToString(),
+                        true,
+                        true,
+                        new TextObject("{=aeouhelq}Yes").ToString(),
+                        new TextObject("{=8OkPHu4f}No").ToString(),
+                        () =>
+                        {
+                            _switchEvent = SwitchEvent.CreateSiegeEvent(MainHero, siegeEvent);
+                            SwitchPlayer(leader);
+                        },
+                        null),
+                    true);
             }
 
-            if (besiegedSettlement.OwnerClan == PlayerClan)
+            if (besiegedSettlement.OwnerClan == PlayerClan && besiegedSettlement is { Town: { Governor: { } governor } })
             {
-                if (besiegedSettlement.Town.Governor is { } governor)
-                {
-                    var text = Strings.UnderSiegeSwitchTo
-                        .SetTextVariable("LEADER", governor.Name)
-                        .SetTextVariable("SETTLEMENT", besiegedSettlement.Name)
-                        .SetTextVariable("ATTACKERS", attackerParty.Name);
+                var text = Strings.UnderSiegeSwitchTo
+                    .SetTextVariable("LEADER", governor.Name)
+                    .SetTextVariable("SETTLEMENT", besiegedSettlement.Name)
+                    .SetTextVariable("ATTACKERS", attackerParty.Name);
 
-                    InformationManager.ShowInquiry(new InquiryData(
-                            Strings.Defend.ToString(),
-                            text.ToString(),
-                            true,
-                            true,
-                            new TextObject("{=aeouhelq}Yes").ToString(),
-                            new TextObject("{=8OkPHu4f}No").ToString(),
-                            () =>
-                            {
-                                lastHero = MainHero;
-                                clanSiegeEvent = siegeEvent;
-                                SwitchPlayer(governor);
-                            },
-                            null),
-                        true);
-                    //return;
-                }
+                InformationManager.ShowInquiry(new InquiryData(
+                        Strings.Defend.ToString(),
+                        text.ToString(),
+                        true,
+                        true,
+                        new TextObject("{=aeouhelq}Yes").ToString(),
+                        new TextObject("{=8OkPHu4f}No").ToString(),
+                        () =>
+                        {
+                            _switchEvent = SwitchEvent.CreateSiegeEvent(MainHero, siegeEvent);
+                            SwitchPlayer(governor);
+                        },
+                        null),
+                    true);
             }
         }
 
         private void OnSiegeEventEnded(SiegeEvent siegeEvent)
         {
-            if (siegeEvent != clanSiegeEvent || lastHero is null) return;
+            if (_switchEvent is not { } || _switchEvent.SiegeEvent != siegeEvent) return;
 
-            clanSiegeEvent = null;
+            var lastHero = _switchEvent.LastHero;
+            _switchEvent = null;
+
             var text = Strings.SwitchBack
                 .SetTextVariable("LAST_HERO", lastHero.Name);
 
@@ -238,15 +210,8 @@ namespace Bannerlord.PlayerSwitcher.CampaignBehaviors
                     true,
                     new TextObject("{=aeouhelq}Yes").ToString(),
                     new TextObject("{=8OkPHu4f}No").ToString(),
-                    () =>
-                    {
-                        SwitchPlayer(lastHero);
-                        lastHero = null;
-                    },
-                    () =>
-                    {
-                        lastHero = null;
-                    }),
+                    () => SwitchPlayer(lastHero),
+                    null),
                 true);
         }
 
@@ -260,8 +225,6 @@ namespace Bannerlord.PlayerSwitcher.CampaignBehaviors
                 OnCompanionAdded?.Invoke(oldLeader.Clan, oldLeader);
             }
 
-            _selectedClan = newLeader.Clan;
-
             // We play the Hero now, he can't be a Governor anymore
             if (newLeader.GovernorOf is not null)
             {
@@ -271,8 +234,8 @@ namespace Bannerlord.PlayerSwitcher.CampaignBehaviors
             // Remove the hero from a caravan
             if (newLeader.PartyBelongedTo is { IsCaravan: true })
             {
-                var settlement = SettlementHelper.FindNearestSettlement( s => (s.IsTown || s.IsCastle) && !FactionManager.IsAtWarAgainstFaction(s.MapFaction, newLeader.MapFaction)) ??
-                                 SettlementHelper.FindNearestSettlement( s => s.IsVillage || (!s.IsHideout && !s.IsFortification));
+                var settlement = SettlementHelper.FindNearestSettlement(s => (s.IsTown || s.IsCastle) && !FactionManager.IsAtWarAgainstFaction(s.MapFaction, newLeader.MapFaction)) ??
+                                 SettlementHelper.FindNearestSettlement(s => s.IsVillage || (!s.IsHideout && !s.IsFortification));
                 DestroyPartyAction.Apply(null, newLeader.PartyBelongedTo);
                 TeleportHeroAction.ApplyImmediateTeleportToSettlement(newLeader, settlement);
             }

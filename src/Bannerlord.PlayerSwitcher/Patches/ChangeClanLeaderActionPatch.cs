@@ -7,7 +7,7 @@ using TaleWorlds.Core;
 
 namespace Bannerlord.PlayerSwitcher.Patches
 {
-    internal class ChangeClanLeaderActionPatch
+    internal static class ChangeClanLeaderActionPatch
     {
         public static bool Enable(Harmony harmony)
         {

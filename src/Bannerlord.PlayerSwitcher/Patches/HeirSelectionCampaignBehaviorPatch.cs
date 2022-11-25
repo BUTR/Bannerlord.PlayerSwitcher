@@ -16,7 +16,7 @@ namespace Bannerlord.PlayerSwitcher.Patches
         public void Dispose() => HeirSelectionCampaignBehaviorPatch.SkipChange = false;
     }
 
-    internal class HeirSelectionCampaignBehaviorPatch
+    internal static class HeirSelectionCampaignBehaviorPatch
     {
         internal static bool SkipChange = false;
 

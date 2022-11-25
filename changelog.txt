@@ -1,4 +1,9 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.9.8
+Game Versions: v1.0.0,v1.0.1,v1.0.2
+* Fixed possible null reference crash when being besieged
+* Attacking a Clan caravan won't trigger the switch due to game's limitation
+---------------------------------------------------------------------------------------------------
 Version: 1.9.7
 Game Versions: v1.0.0,v1.0.1,v1.0.2
 * Fixed wrong Player Party name after switching to other Clan

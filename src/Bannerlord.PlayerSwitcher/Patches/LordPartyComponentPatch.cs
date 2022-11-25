@@ -16,7 +16,7 @@ namespace Bannerlord.PlayerSwitcher.Patches
         public void Dispose() => LordPartyComponentPatch.SkipChange = false;
     }
 
-    internal class LordPartyComponentPatch
+    internal static class LordPartyComponentPatch
     {
         internal static bool SkipChange = false;
 
