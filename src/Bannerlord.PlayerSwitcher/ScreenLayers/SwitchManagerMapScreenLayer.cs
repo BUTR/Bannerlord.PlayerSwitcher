@@ -64,41 +64,20 @@ namespace Bannerlord.PlayerSwitcher.ScreenLayers
             });
         }
 
+        protected override void OnFinalize()
+        {
+            _subscription?.Dispose();
+
+            base.OnFinalize();
+        }
+
         private void SelectClan()
         {
-            static IEnumerable<Clan> GetAllHeirApparents()
-            {
-                foreach (var clan in Clan.All)
-                {
-                    if (clan is null)
-                        continue;
-
-                    if (clan.Heroes.Count == 0)
-                        continue;
-
-                    if (clan == Clan.PlayerClan && clan.Heroes.Count == 1)
-                        continue;
-
-                    yield return clan;
-                }
-            }
-
-            static IEnumerable<InquiryElement> ClanInquiries()
-            {
-                foreach (var clan in GetAllHeirApparents().OrderBy(x => x.Tier))
-                {
-                    if (clan.StringId == "neutral")
-                        continue;
-
-                    yield return new InquiryElement(clan, clan.Name.ToString(), new ImageIdentifier(clan.Banner));
-                }
-            }
-
             MBInformationManager.ShowMultiSelectionInquiry(
                 new MultiSelectionInquiryData(
                     Strings.PlayerSwitcher.ToString(),
                     Strings.SelectAClanToPlay.ToString(),
-                    ClanInquiries().ToList(),
+                    ClanHeirInquiries().ToList(),
                     true,
                     1,
                     new TextObject("{=WiNRdfsm}Done").ToString(),
@@ -112,16 +91,6 @@ namespace Bannerlord.PlayerSwitcher.ScreenLayers
 
         private void SelectPlayerClanHeroes()
         {
-            static IEnumerable<InquiryElement> ClanInquiries(Clan clan)
-            {
-                foreach (var hero in GetHeroes(clan))
-                {
-                    var parent = new TextObject("{HERO.NAME}");
-                    StringHelpers.SetCharacterProperties("HERO", hero.CharacterObject, parent);
-                    yield return new InquiryElement(hero, parent.ToString(), new ImageIdentifier(CharacterCode.CreateFrom(hero.CharacterObject)));
-                }
-            }
-
             var inquiries = ClanInquiries(Clan.PlayerClan).ToList();
             if (inquiries.Count == 0)
             {
@@ -147,16 +116,6 @@ namespace Bannerlord.PlayerSwitcher.ScreenLayers
 
         private void OnFactionSelectionOver(List<InquiryElement> element)
         {
-            static IEnumerable<InquiryElement> ClanInquiries(Clan clan)
-            {
-                foreach (var hero in GetHeroes(clan))
-                {
-                    var parent = new TextObject("{HERO.NAME}");
-                    StringHelpers.SetCharacterProperties("HERO", hero.CharacterObject, parent);
-                    yield return new InquiryElement(hero, parent.ToString(), new ImageIdentifier(CharacterCode.CreateFrom(hero.CharacterObject)));
-                }
-            }
-
             if (element.First().Identifier is not Clan clan)
                 return;
 
@@ -188,6 +147,15 @@ namespace Bannerlord.PlayerSwitcher.ScreenLayers
             _storageCampaignBehavior.SwitchPlayer(selectedHeir);
         }
 
+        private static IEnumerable<InquiryElement> ClanInquiries(Clan clan)
+        {
+            foreach (var hero in GetHeroes(clan))
+            {
+                var parent = new TextObject("{HERO.NAME}");
+                StringHelpers.SetCharacterProperties("HERO", hero.CharacterObject, parent);
+                yield return new InquiryElement(hero, parent.ToString(), new ImageIdentifier(CharacterCode.CreateFrom(hero.CharacterObject)));
+            }
+        }
         private static IEnumerable<Hero> GetHeroes(Clan clan)
         {
             foreach (var hero in clan.Heroes)
@@ -208,11 +176,32 @@ namespace Bannerlord.PlayerSwitcher.ScreenLayers
             }
         }
 
-        protected override void OnFinalize()
-        {
-            _subscription?.Dispose();
 
-            base.OnFinalize();
+        private static IEnumerable<InquiryElement> ClanHeirInquiries()
+        {
+            foreach (var clan in GetAllHeirApparents().OrderBy(x => x.Tier))
+            {
+                if (clan.StringId == "neutral")
+                    continue;
+
+                yield return new InquiryElement(clan, clan.Name.ToString(), new ImageIdentifier(clan.Banner));
+            }
+        }
+        private static IEnumerable<Clan> GetAllHeirApparents()
+        {
+            foreach (var clan in Clan.All)
+            {
+                if (clan is null)
+                    continue;
+
+                if (clan.Heroes.Count == 0)
+                    continue;
+
+                if (clan == Clan.PlayerClan && clan.Heroes.Count == 1)
+                    continue;
+
+                yield return clan;
+            }
         }
     }
 }

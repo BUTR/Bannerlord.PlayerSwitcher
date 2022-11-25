@@ -6,7 +6,7 @@
     <!-- Module Name -->
     <ModuleName>BUTR's Player Switcher</ModuleName>
     <!-- Module Version -->
-    <Version>1.9.7</Version>
+    <Version>1.9.8</Version>
     <!-- Module manually override GameVersion -->
     <!-- <OverrideGameVersion>e1.6.2</OverrideGameVersion> -->
     <!-- <DefineConstants>$(DefineConstants);BANNERLORDBUTRSHARED_ENABLE_WARNINGS</DefineConstants> -->
@@ -43,6 +43,23 @@
     <PackageReference Include="Bannerlord.ReferenceAssemblies.Core" Version="$(GameVersion).*-*" IncludeAssets="compile" />
     <PackageReference Include="Bannerlord.ReferenceAssemblies.SandBox" Version="$(GameVersion).*-*" IncludeAssets="compile" />
   </ItemGroup>
+
+  <!--
+  <ItemGroup>
+    <Reference Include="$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.*.dll" Exclude="$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.Native.dll">
+      <HintPath>%(Identity)</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="$(GameFolder)\Modules\SandBox\bin\Win64_Shipping_Client\*.dll">
+      <HintPath>%(Identity)</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="$(GameFolder)\Modules\SandboxCore\bin\Win64_Shipping_Client\*.dll">
+      <HintPath>%(Identity)</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  -->
 
   <ItemGroup Condition="'$(GITHUB_ACTIONS)' != 'true'">
     <PackageReference Include="BUTR.Harmony.Analyzer" Version="$(HarmonyAnalyzerVersion)">

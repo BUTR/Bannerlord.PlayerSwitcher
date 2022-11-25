@@ -16,7 +16,7 @@ namespace Bannerlord.PlayerSwitcher.Patches
         public void Dispose() => AddRemoveCompanionActionPatch.SkipChange = false;
     }
 
-    internal class AddRemoveCompanionActionPatch
+    internal static class AddRemoveCompanionActionPatch
     {
         internal static bool SkipChange = false;
 
