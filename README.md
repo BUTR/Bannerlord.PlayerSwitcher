@@ -9,6 +9,9 @@
   <a href="https://codeclimate.com/github/BUTR/Bannerlord.PlayerSwitcher/maintainability">
     <img alt="Code Climate maintainability" src="https://img.shields.io/codeclimate/maintainability-percentage/BUTR/Bannerlord.PlayerSwitcher">
   </a>
+  <a title="Crowdin" target="_blank" href="https://crowdin.com/project/player-switcher">
+    <img src="https://badges.crowdin.net/player-switcher/localized.svg">
+  </a>
   </br>
   <a href="https://www.nexusmods.com/mountandblade2bannerlord/mods/3666" alt="NexusMods PlayerSwitcher">
     <img src="https://img.shields.io/badge/NexusMods-PlayerSwitcher-yellow.svg" />
