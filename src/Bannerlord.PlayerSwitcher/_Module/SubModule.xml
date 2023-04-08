@@ -7,13 +7,14 @@
   <DefaultModule value="false" />
   <ModuleType value="Community" />
   <ModuleCategory value="Singleplayer" />
+  <Url value="$moduleurl$" />
   <DependedModules>
     <DependedModule Id="Bannerlord.Harmony" DependentVersion="v$harmonyversion$" />
     <DependedModule Id="Bannerlord.ButterLib" DependentVersion="v$butterlibversion$" />
     <DependedModule Id="Bannerlord.MBOptionScreen" DependentVersion="v$mcmversion$" />
-    <DependedModule Id="Native" DependentVersion="v$gameversion$.*" />
-    <DependedModule Id="SandBoxCore" DependentVersion="v$gameversion$.*" />
-    <DependedModule Id="Sandbox" DependentVersion="v$gameversion$.*" />
+    <DependedModule Id="Native" DependentVersion="$gameversion$.*" />
+    <DependedModule Id="SandBoxCore" DependentVersion="$gameversion$.*" />
+    <DependedModule Id="Sandbox" DependentVersion="$gameversion$.*" />
   </DependedModules>
   <!-- Community Dependency Metadata -->
   <!-- https://github.com/BUTR/Bannerlord.BUTRLoader#for-modders -->
@@ -21,9 +22,9 @@
     <DependedModuleMetadata id="Bannerlord.Harmony" order="LoadBeforeThis" version="v$harmonyversion$" />
     <DependedModuleMetadata id="Bannerlord.ButterLib" order="LoadBeforeThis" version="v$butterlibversion$" />
     <DependedModuleMetadata id="Bannerlord.MBOptionScreen" order="LoadBeforeThis" version="v$mcmversion$" />
-    <DependedModuleMetadata id="Native" order="LoadBeforeThis" version="v$gameversion$.*" />
-    <DependedModuleMetadata id="SandBoxCore" order="LoadBeforeThis" version="v$gameversion$.*" />
-    <DependedModuleMetadata id="Sandbox" order="LoadBeforeThis" version="v$gameversion$.*" />
+    <DependedModuleMetadata id="Native" order="LoadBeforeThis" version="$gameversion$.*" />
+    <DependedModuleMetadata id="SandBoxCore" order="LoadBeforeThis" version="$gameversion$.*" />
+    <DependedModuleMetadata id="Sandbox" order="LoadBeforeThis" version="$gameversion$.*" />
   </DependedModuleMetadatas>
   <!-- Community Dependency Metadata -->
   <SubModules>
