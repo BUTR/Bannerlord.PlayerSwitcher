@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/BUTR/Bannerlord.XmlSchemas/master/ModuleLanguage.xsd">
+  <tags>
+    <tag language="Español"/>
+  </tags>
+  <strings>
+    <string id="QKCOKf5jRM" text="{LEADER} está atacando {DEFENDERS}. ¿Cambiar a {LEADER}?"/>
+    <string id="jOyHIwxmhb" text="{LEADER} está siendo atacado por {ATTACKERS}. ¿Cambiar a {LEADER}?"/>
+    <string id="DMtEOm8C2W" text="¿Cambiar de vuelta a {LAST_HERO}?"/>
+    <string id="G0pTcJD6cG" text="{LEADER} está asediando {SETTLEMENT}. ¿Cambiar a {LEADER}?"/>
+    <string id="OHKrGhoLp3" text="{SETTLEMENT} está bajo asedio de {ATTACKERS}. ¿Cambiar a {LEADER}?"/>
+    <string id="qKus0BE3xi" text="Ataque"/>
+    <string id="pai08I9LP2" text="Defensa"/>
+    <string id="1Gfj29qE2R" text="Batalla finalizada"/>
+    <string id="lbx4kAzf0A" text="Asedio finalizado"/>
+
+    <string id="Ooz4Z5vMZR" text="Cambiar héroe de jugador"/>
+    <string id="CGoVgCVK7t" text="Cambia el héroe con el que se está jugando."/>
+    <string id="WQQBeAQcyc" text="Deja tu actual asentamiento antes de cambiar entre jugadores para que así el juego pueda cerrar el menú y cargar la interfaz arriba de la pantalla que muestra todos los notables."/>
+    <string id="JHnsYgSgtS" text="Cierra el menú abierto antes de cambiar."/>
+
+    <string id="CjU71TGHWq" text="Grupo de {LEADER}"/>
+
+    <string id="nqwp2XsNFW" text="Jugador cambiado a {LEADER}"/>
+    <string id="VfJiuott1b" text="Player Switcher"/>
+    <string id="3H7NmYfKn6" text="Selecciona un clan a elegir de entre sus héroes."/>
+    <string id="yP5F99s3ti" text="Selecciona un héroe con el que jugar."/>
+    <string id="aqTKT8UyBg" text="¡No tienes a nadie al que cambiarte!"/>
+
+    <string id="SW2ZF7BsYv" text="Player Switcher {VERSION}"/>
+    <string id="qe3elfFGkN" text="Juego"/>
+    <string id="qLPesYzLHy" text="Mensajes de cambio."/>
+    <string id="f9cYRLIkLn" text="Activar esto te alertará cuando los miembros de un clan estén en batalla para que así puedas cambiarte a ellos."/>
+    <string id="07kUenp2b3" text="Modo trucos"/>
+    <string id="BtV9T3hhIg" text="Cambia entre diferentes clanes. ¡PELIGRO! ¡Puede ser inestable!"/>
+  </strings>
+</base>
