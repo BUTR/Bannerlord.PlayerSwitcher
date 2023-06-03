@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/BUTR/Bannerlord.XmlSchemas/master/ModuleLanguage.xsd">
+  <tags>
+    <tag language="简体中文"/>
+  </tags>
+  <strings>
+    <string id="QKCOKf5jRM" text="{LEADER} 正在攻击 {DEFENDERS}。切换到 {LEADER}？"/>
+    <string id="jOyHIwxmhb" text="{LEADER} 正在被 {ATTACKERS} 攻击。切换到 {LEADER}？"/>
+    <string id="DMtEOm8C2W" text="切换回 {LAST_HERO}？"/>
+    <string id="G0pTcJD6cG" text="{LEADER} 正在围困 {SETTLEMENT}。切换到 {LEADER}？"/>
+    <string id="OHKrGhoLp3" text="{SETTLEMENT} 正在被 {ATTACKERS} 围困。切换到 {LEADER}？"/>
+    <string id="qKus0BE3xi" text="攻击"/>
+    <string id="pai08I9LP2" text="防御"/>
+    <string id="1Gfj29qE2R" text="战斗结束"/>
+    <string id="lbx4kAzf0A" text="围攻结束"/>
+
+    <string id="Ooz4Z5vMZR" text="切换玩家英雄"/>
+    <string id="CGoVgCVK7t" text="切换当前游玩的英雄。"/>
+    <string id="WQQBeAQcyc" text="在切换玩家之前离开您当前的定居点，这样游戏可以关闭菜单并卸载屏幕顶部显示所有名人的界面。"/>
+    <string id="JHnsYgSgtS" text="关闭切换前打开的菜单。"/>
+
+    <string id="CjU71TGHWq" text="{LEADER} 的团队"/>
+
+    <string id="nqwp2XsNFW" text="玩家切换到 {LEADER}"/>
+    <string id="VfJiuott1b" text="玩家切换器"/>
+    <string id="3H7NmYfKn6" text="选择一个氏族来选择他们的英雄。"/>
+    <string id="yP5F99s3ti" text="选择一位要游玩的英雄。"/>
+    <string id="aqTKT8UyBg" text="您没有可以切换到的人！"/>
+
+    <string id="SW2ZF7BsYv" text="玩家切换器 {VERSION}"/>
+    <string id="qe3elfFGkN" text="游戏玩法"/>
+    <string id="qLPesYzLHy" text="切换信息。"/>
+    <string id="f9cYRLIkLn" text="启用此功能会在氏族成员参加战斗时提醒您，以便您可以切换到他们。"/>
+    <string id="07kUenp2b3" text="作弊模式"/>
+    <string id="BtV9T3hhIg" text="在不同的氏族之间切换。危险！可能不稳定！"/>
+  </strings>
+</base>
