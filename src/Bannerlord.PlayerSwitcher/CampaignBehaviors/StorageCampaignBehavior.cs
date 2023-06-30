@@ -144,7 +144,13 @@ namespace Bannerlord.PlayerSwitcher.CampaignBehaviors
         {
             if (!Settings?.SwitchMessages ?? false) return;
 
+#if v100 || v101 || v102 || v103 || v110 || v111 || v112 || v113 || v114 || v115
             var attackerParty = siegeEvent.BesiegerCamp.BesiegerParty;
+#elif v120
+            var attackerParty = siegeEvent.BesiegerCamp.LeaderParty;
+#else
+#error Error
+#endif
             var besiegedSettlement = siegeEvent.BesiegedSettlement;
 
             if (attackerParty != MainParty && attackerParty.LeaderHero is { } leader && leader.Clan == PlayerClan)

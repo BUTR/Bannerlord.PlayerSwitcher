@@ -73,6 +73,7 @@ namespace Bannerlord.PlayerSwitcher.ScreenLayers
 
         private void SelectClan()
         {
+#if v100 || v101 || v102 || v103 || v110 || v111 || v112 || v113 || v114 || v115
             MBInformationManager.ShowMultiSelectionInquiry(
                 new MultiSelectionInquiryData(
                     Strings.PlayerSwitcher.ToString(),
@@ -85,6 +86,23 @@ namespace Bannerlord.PlayerSwitcher.ScreenLayers
                     OnFactionSelectionOver,
                     null)
             );
+#elif v120
+            MBInformationManager.ShowMultiSelectionInquiry(
+                new MultiSelectionInquiryData(
+                    Strings.PlayerSwitcher.ToString(),
+                    Strings.SelectAClanToPlay.ToString(),
+                    ClanHeirInquiries().ToList(),
+                    true,
+                    1,
+                    1,
+                    new TextObject("{=WiNRdfsm}Done").ToString(),
+                    "",
+                    OnFactionSelectionOver,
+                    null)
+            );
+#else
+#error Error
+#endif
 
             Campaign.Current.TimeControlMode = CampaignTimeControlMode.Stop;
         }
@@ -98,6 +116,7 @@ namespace Bannerlord.PlayerSwitcher.ScreenLayers
                 return;
             }
 
+#if v100 || v101 || v102 || v103 || v110 || v111 || v112 || v113 || v114 || v115
             MBInformationManager.ShowMultiSelectionInquiry(
                 new MultiSelectionInquiryData(
                     Strings.PlayerSwitcher.ToString(),
@@ -110,6 +129,23 @@ namespace Bannerlord.PlayerSwitcher.ScreenLayers
                     OnHeroSelectionOver,
                     null)
             );
+#elif v120
+            MBInformationManager.ShowMultiSelectionInquiry(
+                new MultiSelectionInquiryData(
+                    Strings.PlayerSwitcher.ToString(),
+                    Strings.SelectAHeroToPlay.ToString(),
+                    inquiries,
+                    true,
+                    1,
+                    1,
+                    new TextObject("{=WiNRdfsm}Done").ToString(),
+                    "",
+                    OnHeroSelectionOver,
+                    null)
+            );
+#else
+#error Error
+#endif
 
             Campaign.Current.TimeControlMode = CampaignTimeControlMode.Stop;
         }
@@ -126,6 +162,7 @@ namespace Bannerlord.PlayerSwitcher.ScreenLayers
                 return;
             }
 
+#if v100 || v101 || v102 || v103 || v110 || v111 || v112 || v113 || v114 || v115
             MBInformationManager.ShowMultiSelectionInquiry(
                 new MultiSelectionInquiryData(
                     Strings.PlayerSwitcher.ToString(),
@@ -138,6 +175,23 @@ namespace Bannerlord.PlayerSwitcher.ScreenLayers
                     OnHeroSelectionOver,
                     null)
             );
+#elif v120
+            MBInformationManager.ShowMultiSelectionInquiry(
+                new MultiSelectionInquiryData(
+                    Strings.PlayerSwitcher.ToString(),
+                    Strings.SelectAHeroToPlay.ToString(),
+                    inquiries,
+                    true,
+                    1,
+                    1,
+                    new TextObject("{=WiNRdfsm}Done").ToString(),
+                    "",
+                    OnHeroSelectionOver,
+                    null)
+            );
+#else
+#error Error
+#endif
         }
 
         private void OnHeroSelectionOver(List<InquiryElement> element)
